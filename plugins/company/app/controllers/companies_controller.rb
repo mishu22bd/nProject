@@ -14,7 +14,7 @@ class CompaniesController < ApplicationController
   def index
     @companies = Company.all
   end
-
+# responsible for showing company data
   def show
    # @company = Company.find(params[:id])
    @users = User.where(companies_id: @company.id)
