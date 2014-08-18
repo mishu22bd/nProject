@@ -1,0 +1,10 @@
+<h1>Upload File to 
+<% project = Project.where(id: params[:project_id]).pluck(:name) %>
+<% project.each do |p| %>
+<%= p %>
+<% end %>
+
+</h1>
+
+<%= render 'form' %>
+
