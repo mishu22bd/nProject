@@ -241,12 +241,21 @@ end
   # Add a new issue
   # The new issue will be created from an existing one if copy_from parameter is given
   def new
-    Rails.logger.info "Debug tracker id"
+    #Rails.logger.info "Debug tracker id"
     @tracker_id = params[:tracker_id]
     @tracker_name = params[:tracker_name]
-    puts @tracker_id
-    puts @tracker_name
+    #puts @tracker_id
+   # puts @tracker_name
      Rails.logger.info "Debug tracker end"
+
+    @issuesOrTasks  = Issue.where(project_id: @project.id, tracker_id: @issue.tracker).last
+    
+    if @issuesOrTasks == nil 
+    @issue_project_issue_id = 0
+    else
+    @issue_project_issue_id = @issuesOrTasks.project_issue_id 
+    end
+
     respond_to do |format|
       format.html { render :action => 'new', :layout => !request.xhr? }
     end

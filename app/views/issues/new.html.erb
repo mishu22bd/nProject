@@ -7,9 +7,9 @@
 <% if @tracker_name != nil %>
 <%= title "Create New " + @tracker_name %>
 <% elsif track_id.to_i == 5 %>
-<%= title "Create New Sub Issue of Parent #{ptrack_no}"  %>
-<% elsif track_id.to_i == 4 %>
-<%= title "Create New Sub Task of Parent #{ptrack_no}"  %>
+<%= title "Create New Sub Issue"  %>
+<% elsif track_id.to_i == 4 %> 
+<%= title "Create New Sub Task"  %>
 <% end %>
 <%#= params[:issue] %>
 <%= call_hook(:view_issues_new_top, {:issue => @issue}) %>
