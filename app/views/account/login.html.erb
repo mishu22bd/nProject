@@ -290,7 +290,8 @@
 </div>
 </div>-->
 
-  <div id="login-form" class="row" style="position:absolute;right: 150px; top: -40px;">
+ <div id="screen" style="float:left;">
+  <div id="login-form" class="row" style="right: 150px; top: -40px; float:left;">
 <%= form_tag(signin_path) do %>
 <%= back_url_hidden_field_tag %>
 
@@ -336,6 +337,10 @@
 <% end %>
 
 
+</div>
+<div id="project_screen" style="float:right; margin-top: 50px; margin-left:-83px;">
+  <%= image_tag "scheme_nproject.png", :style => "width:800px;"  %>
+</div>
 </div>
 </div>
 <%= call_hook :view_account_login_bottom %>
