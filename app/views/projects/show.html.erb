@@ -43,24 +43,23 @@
   </div>
 
 
-<%# if @numberOfIssues != 'a' %>
+<% if @numberOfIssues != 0 %>
 <%# a is actually undefined, 0 caused divide by zero error %>
- <%# <div class="splitcontenthomeright">   %>
-  <%# <div class="codash imeetbox"> %>
-     <%# <h3><%#"Key Project Performance Indicators" %>
+ <div class="splitcontenthomeright">  
+   <div class="codash imeetbox"> 
+      <h3>"Key Project Performance Indicators" </h3>
     
       <%# if User.current.allowed_to?(:view_issues, @project) %>
-        <%# render 'project_kpi' %>
-    <%#    end  %>
+        <%= render 'project_kpi' %>
+      <%# end  %>
       
- <%#    </div> %>
+   </div> 
    
    
 
- <%#   </div> %>
+   </div>
 
-<%# end %>
-
+<% end %>
 
 </div>
 

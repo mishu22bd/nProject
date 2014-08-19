@@ -364,8 +364,8 @@ span.search_for_watchers a, span.add_attachment a {padding-left:16px; background
 div.codash{
   float: left;
   width : 97%;
-
-}
+  margin-left: -13px;
+} 
 div.pdash{
   float: left;
   width : 97%;

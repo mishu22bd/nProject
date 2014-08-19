@@ -33,7 +33,7 @@
         <% spent_times =  TimeEntry.sum(:hours, :conditions =>{project_id: @project.id}).to_f.round(1) %> 
 
 <table class="list files">
-	<thead>
+  <thead>
   <tr>
     
     <th rowspan="2"><b> <%= "Due Date" %> </b></th>
@@ -61,7 +61,7 @@
   </tr>
 </thead>
 
-		
+    
 
 
 
@@ -295,10 +295,10 @@
 
 
 <td>
-<% if estimated_times!= 0.0 %>
+<% if estimated_times != 0 %>
 <%= burn = ((spent_times*100)/estimated_times).ceil %>%
 <% else %>
-<%= 0 %>%
+<%= burn = 0 %>%
 <% end %>
 </td>
 <td><%= late %>%</td>
@@ -332,25 +332,25 @@
     <th><b><%= "Ratio" %></b></th>
 
     <th><b><%= "Status" %></b></th>
-    <th><b><%= "Duration" %></b></th>
-    <th><b><%= "Diff" %></b></th>
+    <th><b><%= "Duration" %> </b></th>
+    <th><b><%= "Diff" %> </b></th>
   </tr>
-</thead>	
+</thead>  
 <tbody>
     <% open = opIssues + opTasks %>
     <% total = aI + aT %>
-    <% duraton = ((lDate*100)/dif).round %>
+    <% duraton = ((lDate*100)/dif).round  %>
     <% diff = duraton - progress %>
      <tr class="file <%= cycle("odd", "even") %>">
-	<td><%= open %></td>
-	<td><%= total %></td>
-	<td><%= ((open*100)/total).ceil %>%</td>
-	<td><%= opIssues %></td>
-	<td><%= opTasks %></td>
-	<td> <%= ((opIssues*100)/opTasks).round %>%</td>
-	<td><%= progress %>%</td>
-	<td><%= duraton %>%</td>
-	<td><%= diff %>%</td>
-	</tr>
+  <td><%= open %></td>
+  <td><%= total %></td>
+  <td><%= ((open*100)/(total == 0 ? 1 : total)).ceil %>%</td>
+  <td><%= opIssues %></td>
+  <td><%= opTasks %></td>
+  <td> <%= ((opIssues*100)/(opTasks == 0 ? 1 : opTasks)).round %>%</td>
+  <td><%= progress %>%</td>
+  <td><%= duraton %>%</td>
+  <td><%= diff %>%</td>
+  </tr>
 </tbody>
 </table>
