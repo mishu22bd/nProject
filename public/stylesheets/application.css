@@ -119,7 +119,7 @@ h4 {border-bottom: 1px dotted #bbb;}
 
 #content { width: 75%; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; }
 * html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
-html>body #content { min-height: 820px; }
+html>body #content { min-height: 600px; }
 * html body #content { height: 600px; } /* IE */
 
 #main.nosidebar #sidebar{ display: none; }
