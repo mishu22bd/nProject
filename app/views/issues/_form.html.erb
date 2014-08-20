@@ -28,13 +28,10 @@
 <% if @issue.safe_attribute? 'subject' %>
 <p><%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %></p>
 <% end %>
- <% if @issue.safe_attribute? 'project_issue_id' %>
- <% issueIdValue = 0 %>
-<% if  @issue_project_issue_id == nil %>
-<% issueIdValue = 1 %>
-<% else %>
-<% issueIdValue = @issue_project_issue_id +1 %>
-<% end %>
+ <!-- project issue id is added as hidden field -->
+<% if @issue.safe_attribute? 'project_issue_id' %>
+
+<% issueIdValue = @issue_project_issue_id.to_i + 1 or 1 %>
 <%= f.hidden_field :project_issue_id,:value => issueIdValue %>
 <% end %>
 

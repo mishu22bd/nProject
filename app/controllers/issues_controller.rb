@@ -246,14 +246,14 @@ end
     @tracker_name = params[:tracker_name]
     #puts @tracker_id
    # puts @tracker_name
-     Rails.logger.info "Debug tracker end"
+    # Rails.logger.info "Debug tracker end"
 
     @issuesOrTasks  = Issue.where(project_id: @project.id, tracker_id: @issue.tracker).last
     
-    if @issuesOrTasks == nil 
-    @issue_project_issue_id = 0
+    if @issuesOrTasks
+      @issue_project_issue_id = @issuesOrTasks.project_issue_id
     else
-    @issue_project_issue_id = @issuesOrTasks.project_issue_id 
+      @issue_project_issue_id = 0 
     end
 
     respond_to do |format|
