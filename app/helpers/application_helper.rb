@@ -70,7 +70,7 @@ module ApplicationHelper
   def link_to_issue(issue, options={})
     title = nil
     subject = nil
-    text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.id}"
+    text = options[:tracker] == false ? "##{issue.id}" : "#{issue.tracker} ##{issue.project_issue_id}"
     if options[:subject] == false
       title = truncate(issue.subject, :length => 60)
     else
