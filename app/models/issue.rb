@@ -368,6 +368,7 @@ class Issue < ActiveRecord::Base
     'status_id',
     'category_id',
     'assigned_to_id',
+    'project_issue_id',
     'priority_id',
     'fixed_version_id',
     'subject',

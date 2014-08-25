@@ -58,7 +58,7 @@ module IssuesHelper
   end
 
   def issue_heading(issue)
-    h("#{issue.tracker} ##{issue.id}")
+    h("#{issue.tracker} ##{issue.project_issue_id}")
   end
 
   def render_issue_subject_with_tree(issue)
@@ -113,6 +113,7 @@ module IssuesHelper
     attrs = {
       :tracker_id => issue.tracker,
       :parent_issue_id => issue
+    
     }
     link_to(l(:button_add), new_project_issue_path(issue.project, :issue => attrs))
   end
