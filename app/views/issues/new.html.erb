@@ -18,6 +18,11 @@
                              :html => {:id => 'issue-form', :multipart => true} do |f| %>
   <%= error_messages_for 'issue' %>
   <%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
+  <% if @issue.safe_attribute? 'project_issue_id' %>
+
+<% issueIdValue = @issue_project_issue_id.to_i + 1 or 1 %>
+<%= f.hidden_field :project_issue_id,:value => issueIdValue %>
+<% end %>
   <div class="box tabular">
     <div id="all_attributes">
     <%= render :partial => 'issues/form', :locals => {:f => f}   %>
