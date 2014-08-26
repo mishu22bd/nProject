@@ -257,7 +257,8 @@ class AccountController < ApplicationController
       set_autologin_cookie(user)
     end
     call_hook(:controller_account_success_authentication_after, {:user => user })
-    redirect_back_or_default my_page_path
+    #redirect_back_or_default my_page_path
+    redirect_to home_url
   end
 
   def set_autologin_cookie(user)
