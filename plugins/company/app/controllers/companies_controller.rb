@@ -16,8 +16,8 @@ class CompaniesController < ApplicationController
   end
 # responsible for showing company data
   def show
-   # @company = Company.find(params[:id])
-   @users = User.where(companies_id: @company.id)
+    @users = @company.users.all
+    @projects = @company.projects.all
   end
   
   def new
@@ -28,9 +28,9 @@ class CompaniesController < ApplicationController
     @company = Company.new(params[:company])
     
     if @company.save
-      flash[:notice] = "Successfully saved"
+     flash[:notice] = "Successfully saved"
 
-     else
+    else
      render 'new'
      end 
   end

@@ -50,6 +50,18 @@
 				</ul>
 			</td>
 		</tr>
+
+		<tr>
+			<td>Company Projects</td>
+			<td><ul class="com-user">
+			     <% count = 1 %>
+				<% for project in @projects %>
+				<li><%= count %> ) <%= project.name %></li>
+				<% count += 1 %>
+				<% end %>
+				</ul>
+			</td>
+		</tr>
 	</table>
 
 
