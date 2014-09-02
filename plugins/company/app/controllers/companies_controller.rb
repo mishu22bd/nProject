@@ -53,7 +53,7 @@ class CompaniesController < ApplicationController
     else
       render 'edit'
     end
-    redirect_to @company
+    redirect_to home_url
   end
  def destroy
    #@company = Company.find(params[:id])
