@@ -1,16 +1,16 @@
 <% content_for :header_tags do %>
-<%= javascript_include_tag :"responsive-tables.js", :plugin => 'imeetdashboard'  %>
-<%= javascript_include_tag :"sortable.js", :plugin => 'imeetdashboard' %>
-<%= javascript_include_tag :"u_table.js", :plugin => 'imeetdashboard' %>
-<%= stylesheet_link_tag :"responsive-tables.css", :plugin => 'imeetdashboard' %>
-<%= stylesheet_link_tag :"imdashs.css", :plugin => 'imeetdashboard' %>
-<%= javascript_include_tag :issue, :plugin => 'imeetdashboard' %>
-<%= stylesheet_link_tag :issue, :plugin => 'imeetdashboard' %>
-<%= javascript_include_tag :"jquery.tablesorter.min.js", :plugin => 'imeetdashboard' %>
-<%= javascript_include_tag :"jquery.tablesorter.pager.js", :plugin => 'imeetdashboard' %>
-<%= stylesheet_link_tag :issue, :plugin => 'imeetdashboard' %>
-<%= javascript_include_tag :"jquery-1.10.2.min.js", :plugin => 'imeetdashboard' %>
-<%= javascript_include_tag :"jquery.dataTables.js", :plugin => 'imeetdashboard' %>
+<%= javascript_include_tag "responsive-tables.js", :plugin => 'imeetdashboard'  %>
+<%= javascript_include_tag "sortable.js", :plugin => 'imeetdashboard' %>
+<%= javascript_include_tag "u_table.js", :plugin => 'imeetdashboard' %>
+<%= stylesheet_link_tag "responsive-tables.css", :plugin => 'imeetdashboard' %>
+<%= stylesheet_link_tag "imdashs.css", :plugin => 'imeetdashboard' %>
+<%#= javascript_include_tag :issue, :plugin => 'imeetdashboard' %>
+<%#= stylesheet_link_tag :issue, :plugin => 'imeetdashboard' %>
+<%= javascript_include_tag "jquery.tablesorter.min.js", :plugin => 'imeetdashboard' %>
+<%#= javascript_include_tag :"jquery.tablesorter.pager.js", :plugin => 'imeetdashboard' %>
+<%#= stylesheet_link_tag :issue, :plugin => 'imeetdashboard' %>
+<%#= javascript_include_tag :"jquery-1.10.2.min.js", :plugin => 'imeetdashboard' %>
+<%#= javascript_include_tag :"jquery.dataTables.js", :plugin => 'imeetdashboard' %>
 
 <% end %>
 <h2> Welcome <%= User.current.firstname %>&nbsp;<%= User.current.lastname %> </h2>

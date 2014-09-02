@@ -19,7 +19,12 @@ class CompaniesController < ApplicationController
     @users = @company.users.all
     @projects = @company.projects.all
   end
-  
+  def company_data
+    @user = User.current
+    @company = Company.find(@user.companies_id)
+
+  end
+
   def new
     @company =  Company.new
   end
