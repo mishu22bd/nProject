@@ -2,13 +2,20 @@
     
 <% project_id = params[:project_id] %>
 
-<div class = "field">
-<%= f.hidden_field :project_id, :value =>project_id %>
+<% if params[:company_id] %>
+<div>
+<% company_id = params[:company_id] %>
+<%= f.hidden_field :company_id, :value => company_id %>
 
 </div>
-
+<% else %>
 <div class = "field">
-<%= f.hidden_field :author_id, :value =>User.current.id %>
+<%= f.hidden_field :project_id, :value => project_id %>
+
+</div>
+<% end %>
+<div class = "field">
+<%= f.hidden_field :author_id, :value => User.current.id %>
 
 </div>
 
@@ -57,7 +64,7 @@
   <%= "Description" %> <span style="color: red;">(*required)</span> <br />
   <%= f.text_field :name %>
 </div>
-
+<% if !params[:company_id] %>
 <div class= "field">
 <br />
 Visibility Settings 
@@ -76,7 +83,7 @@ Visibility Settings
 <br />
 <%= f.radio_button(:private_flag,1) %><%="Only Me"%>
 </div>
-
+<% end %>
 <div class="field">
 <% f.radio_button(:private_flag,3) %><%"Selected Users of "%>
 <% project = Project.where(id: params[:project_id]).pluck(:name) %>

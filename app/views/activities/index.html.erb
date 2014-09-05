@@ -15,7 +15,9 @@
           <% date_from = []%>
           <% date_from = Issue.where(project_id: @project.id).pluck(:start_date).first %>
           <% date_to = Issue.where(project_id: @project.id).pluck(:start_date).last %>
-          
+          <% @issue = Issue.where(project_id) %>
+          <% @journal = @issue.journals.includes(:user, :details).reorder("#{Journal.table_name}.id ASC").all %>
+          <%= @journal.inspect %>
           <span class="marker"><span class="dot"></span></span>
           <p class="lead" style="margin-top:70px; float:left;"><%= l(:label_date_from_to, :start => format_date(date_from), :end => format_date(date_to)) %>
           </p>
@@ -57,7 +59,7 @@
                          
                             
                                   <dt id="19540517">
-                                             <% sort_activity_events(events_by_day[day]).each do |event|%>
+                                          <% sort_activity_events(events_by_day[day]).each do |event|%>
                                                   <% mclass  = event.first.class %>
                                                     <% if mclass == Issue %>
                                                        
@@ -116,7 +118,7 @@
                                       <td>
                                         <%= avatar(User.find(m_id), :size => "24")%>              
                            <% end %>
-                                        <%= "Task" %> <%= event.first.subject %><%= "assigned to" %>
+                                        <%= "Task #" %> <%= event.first.subject %> , <i><%= " Assigned to" %></i>
                                        <% assignee_id = event.first.assigned_to_id %>
 
                                           <% assignee_fname_of_the_issue = User.where(id: assignee_id).pluck(:firstname) %>

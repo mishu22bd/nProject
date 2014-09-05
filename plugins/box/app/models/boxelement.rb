@@ -1,5 +1,5 @@
 class Boxelement < ActiveRecord::Base
-  attr_accessible :name, :private_flag, :project_id, :author_id, :customuser,  :files, :linked_files, :linked_files_attributes
+  attr_accessible :name, :private_flag, :project_id, :author_id, :company_id, :customuser,  :files, :linked_files, :linked_files_attributes
   validates_presence_of :name
 # please check again
 

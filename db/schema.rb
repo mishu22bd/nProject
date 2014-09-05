@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140807061718) do
+ActiveRecord::Schema.define(:version => 20140904092647) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20140807061718) do
     t.integer  "author_id"
     t.integer  "private_flag"
     t.integer  "upload_flag"
+    t.integer  "company_id"
   end
 
   create_table "changes", :force => true do |t|

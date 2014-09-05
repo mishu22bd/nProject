@@ -1,4 +1,9 @@
 <h1> All Files </h1>
+<%= User.current.companies_id %>
+<% url = url_for(:controller => 'boxelements', :action => 'new', :company_id => User.current.companies_id, :author_id => User.current.id, :publicall => 0)  %>
+ <div class="new-button" style="float:right; width: 10%;">
+                     <%= link_to "Upload New File",url %>
+                     </div>
 <table class="list files">
   
   <tr bgcolor="#eaeaea">

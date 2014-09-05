@@ -113,7 +113,22 @@ class BoxelementsController < ApplicationController
                                                               end
                                               end
 
-   
+                                           company_users = User.where(companies_id: params[:boxelement][:company_id])
+
+                                                if @boxelement.private_flag==nil
+                                                      company_users.each do |m|
+                                                                           f = Fileuser.new
+                                                                           f.user_id = m  
+                                                                           f.attachment_id = @boxelement.id
+                                                                                      if m == User.current.id
+                                                                                              f.permission_flag = 2
+                                                                                      else
+                                                                                              f.permission_flag = 1
+                                                                                      end 
+
+                                                                           f.save  
+                                                    end
+                                              end
 
                                               if @boxelement.private_flag==0
                                                       permitted_users.each do |m|
@@ -155,9 +170,14 @@ class BoxelementsController < ApplicationController
                                                                             end 
                                                     end
                                               end
-    
-                        format.html { redirect_to project_files_path(@boxelement.project_id), notice: 'File has been successfully uploaded' }
-                        format.json { render json: @boxelement, status: :created, location: @boxelement }
+                          if params[:boxelement][:company_id] 
+                            #redirect_to '/fileviews'
+                            format.html { redirect_to fileviews_path, notice: 'File has been successfully uploaded' }
+                          else
+                            format.html { redirect_to project_files_path(@boxelement.project_id), notice: 'File has been successfully uploaded' }
+                            format.json { render json: @boxelement, status: :created, location: @boxelement }
+                          end
+                          
                         else
                          #new_project_boxelement_path(@project)
                         redirect_to @boxelement
