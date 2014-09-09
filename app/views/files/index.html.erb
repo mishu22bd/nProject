@@ -75,24 +75,12 @@
     <% project_users = Member.where(project_id: @project.id) %>
 
     
-          <% if fuser_permission_flag ==2 && project_users.count>1 %>
+          <% if fuser_permission_flag ==2 && project_users.count > 1 %>
                    <%#= button_to  "Visibility", {:controller => 'fileviews', :action => 'index'}, :caption => "File", :method => :get,  :if => Proc.new { User.current.logged? } %>
               <%= link_to("Permission", urlv ) %>
-                   <script type="text/javascript">
-                      document.getElementById("myButton").onclick = function () {
-                      };
-                    </script>
-                  
+                 
           <% end  %>     
 
-
-
-
-
-
-
-
-     
 </td> 
 
  <td class="borderlesstd">
@@ -103,18 +91,10 @@
       <% end %>                            
     
     </td>
-
-
-
-
-
-     
-  
-
-  </tr>
+ </tr>
   
   <% end %>
-<% end %>
+ <% end %>
 <% end %>
    
   </tbody>

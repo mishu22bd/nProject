@@ -74,117 +74,136 @@ class BoxelementsController < ApplicationController
 
   # POST /boxelements
   # POST /boxelements.json
-  def create
-        @boxelement = Boxelement.new(params[:boxelement])
-        if @boxelement.name == ""
-        else
-                    respond_to do |format|
-                            if @boxelement.save
-                                    members = Member.where(project_id: params[:boxelement][:project_id]).pluck(:user_id) #find the users of the project
+def create
+  @boxelement = Boxelement.new(params[:boxelement])
+  if @boxelement.name == ""
+  else
+    respond_to do |format|
+      if @boxelement.save
+          members = Member.where(project_id: params[:boxelement][:project_id]).pluck(:user_id) #find the users of the project
 
 
-                                    permitted_users = []
-                                    
-                                    members.each do|m|
-                                          if User.where(id: m).pluck(:login)==[]
-                                                   gusers = GroupsUser.where(group_id: m).pluck(:user_id) 
-                                                   gusers.each do |guser|
-                                                          permitted_users<<guser
-                                                   end
-                                          else
-                                                   permitted_users<<m
-                                          end
-                                    end
-
-
-
-                                              if @boxelement.private_flag == 1
-                                                        permitted_users.each do |m|
-                                                            #filelist.each do |at|
-                                                                          f = Fileuser.new
-                                                                          f.user_id = m  
-                                                                          f.attachment_id = @boxelement.id
-                                                                          if m == User.current.id
-                                                                                f.permission_flag = 2
-                                                                          else
-                                                                                f.permission_flag = 0
-                                                                          end
-                                                                          f.save  
-                                                              end
-                                              end
-
-                                           company_users = User.where(companies_id: params[:boxelement][:company_id])
-
-                                                if @boxelement.private_flag==nil
-                                                      company_users.each do |m|
-                                                                           f = Fileuser.new
-                                                                           f.user_id = m  
-                                                                           f.attachment_id = @boxelement.id
-                                                                                      if m == User.current.id
-                                                                                              f.permission_flag = 2
-                                                                                      else
-                                                                                              f.permission_flag = 1
-                                                                                      end 
-
-                                                                           f.save  
-                                                    end
-                                              end
-
-                                              if @boxelement.private_flag==0
-                                                      permitted_users.each do |m|
-                                                                           f = Fileuser.new
-                                                                           f.user_id = m  
-                                                                           f.attachment_id = @boxelement.id
-                                                                                      if m == User.current.id
-                                                                                              f.permission_flag = 2
-                                                                                      else
-                                                                                              f.permission_flag = 1
-                                                                                      end 
-
-                                                                           f.save  
-                                                    end
-                                              end
-
-
-                                              if @boxelement.private_flag==3
-                                                     permitted_users.each do |m|
-                                                                          f = Fileuser.new
-                                                                          f.user_id = m  
-                                                                          f.attachment_id = @boxelement.id
-                                                                          a = []
-                                                                          @boxelement.customuser.split(',').each do|cuser|  
-                                                                          a<<cuser.to_i
-                                                                          end
-
-                                                                            if m == User.current.id
-                                                                              f.permission_flag = 2  
-                                                                            else                                                                            
-                                                                              a.each do|a|
-                                                                                if m==a
-                                                                                  f.permission_flag = 1
-                                                                                else 
-                                                                                  f.permission_flag = 0
-                                                                                end
-                                                                              end 
-                                                                            f.save 
-                                                                            end 
-                                                    end
-                                              end
-                          if params[:boxelement][:company_id] 
-                            #redirect_to '/fileviews'
-                            format.html { redirect_to fileviews_path, notice: 'File has been successfully uploaded' }
-                          else
-                            format.html { redirect_to project_files_path(@boxelement.project_id), notice: 'File has been successfully uploaded' }
-                            format.json { render json: @boxelement, status: :created, location: @boxelement }
-                          end
-                          
-                        else
-                         #new_project_boxelement_path(@project)
-                        redirect_to @boxelement
-                        end
-                    end
+          permitted_users = []
+          
+          members.each do|m|
+            if User.where(id: m).pluck(:login)==[]
+              gusers = GroupsUser.where(group_id: m).pluck(:user_id) 
+              gusers.each do |guser|
+                permitted_users<<guser
+              end
+            else
+              permitted_users<<m
             end
+      end
+
+    # for compnay
+    if params[:boxelement][:company_id]
+      company_users = User.where(companies_id: params[:boxelement][:company_id]).pluck(:id)
+      # private_flag for company is 5
+      if @boxelement.private_flag == 0
+        company_users.each do |m|
+          f = Fileuser.new
+          f.user_id = m  
+          f.attachment_id = @boxelement.id
+          if m == User.current.id
+            f.permission_flag = 2
+          else
+            f.permission_flag = 1
+          end 
+
+         f.save  
+        end
+      end
+
+      if @boxelement.private_flag == 1
+        company_users.each do |m|
+        #filelist.each do |at|
+        f = Fileuser.new
+        f.user_id = m  
+        f.attachment_id = @boxelement.id
+        if m == User.current.id
+              f.permission_flag = 2
+        else
+              f.permission_flag = 0
+        end
+        f.save  
+        end
+      end
+  else
+  
+    if @boxelement.private_flag == 1
+        permitted_users.each do |m|
+        #filelist.each do |at|
+          f = Fileuser.new
+          f.user_id = m  
+          f.attachment_id = @boxelement.id
+          if m == User.current.id
+                f.permission_flag = 2
+          else
+                f.permission_flag = 0
+          end
+          f.save  
+        end
     end
+                                          
+
+    if @boxelement.private_flag==0
+      permitted_users.each do |m|
+        f = Fileuser.new
+        f.user_id = m  
+        f.attachment_id = @boxelement.id
+        if m == User.current.id
+          f.permission_flag = 2
+        else
+          f.permission_flag = 1
+        end 
+
+      f.save  
+      end
+    end
+  end
+
+=begin
+    if @boxelement.private_flag==3
+      permitted_users.each do |m|
+        f = Fileuser.new
+        f.user_id = m  
+        f.attachment_id = @boxelement.id
+        a = []
+        @boxelement.customuser.split(',').each do|cuser|  
+        a<<cuser.to_i
+        end
+
+          if m == User.current.id
+            f.permission_flag = 2  
+          else                                                                            
+            a.each do|a|
+              if m==a
+                f.permission_flag = 1
+              else 
+                f.permission_flag = 0
+              end
+            end 
+          f.save 
+          end 
+      end
+    end
+=end
+    if params[:boxelement][:company_id] 
+      #redirect_to '/fileviews'
+      format.html { redirect_to fileviews_path, notice: 'File has been successfully uploaded' }
+    else
+      format.html { redirect_to project_files_path(@boxelement.project_id), notice: 'File has been successfully uploaded' }
+      format.json { render json: @boxelement, status: :created, location: @boxelement }
+    end
+    
+  else
+   #new_project_boxelement_path(@project)
+  redirect_to @boxelement
+  end
+  end
+  end
+end
 
   # PUT /boxelements/1
   # PUT /boxelements/1.json

@@ -60,13 +60,13 @@ class CompaniesController < ApplicationController
     end
   end
 
- def destroy
+  def destroy
    #@company = Company.find(params[:id])
-   if @company.destroy
-    flash[:notice] = "Company deleted"
-    redirect_to companies_path
+    if @company.destroy
+      flash[:notice] = "Company deleted"
+      redirect_to companies_path
+    end
   end
- end
   
   private
 
