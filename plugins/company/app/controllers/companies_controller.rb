@@ -54,7 +54,7 @@ class CompaniesController < ApplicationController
       render 'edit'
     end
     if params[:redirect_location]
-    redirect_to params[:redirect_location]
+      redirect_to params[:redirect_location]
     else 
       redirect_to companies_path
     end
