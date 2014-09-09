@@ -4,6 +4,9 @@
     <%= form_for @company, :html => {:multipart => true} do |f| %>
      <fieldset class="box tabular">
      <legend> Company Data</legend>
+     <% if params[:comp].present? %>
+     <%= hidden_field_tag :redirect_location, '/mycompany' %>
+     <% end %>
      <p> <%= f.label :name %>
       <%= f.text_field :name %> </p>
 

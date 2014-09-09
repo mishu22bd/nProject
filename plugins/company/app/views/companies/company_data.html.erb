@@ -42,4 +42,10 @@
 		</tr>
 		
 	</table>
-<div class="new-button" style="float:left; margin-top:10px;"><%= link_to 'Edit', edit_company_path(@company) %> </div>
+<div class="new-button" style="float:left; margin-top:10px;"><%= link_to 'Edit', edit_company_path(@company, :comp => "mycompany") %> 
+</div>
+
+<% content_for :sidebar do %>
+    <h3><%=l(:label_administration)%></h3>
+    <%= render :partial => 'admin/menu' %>
+  <% end %>
