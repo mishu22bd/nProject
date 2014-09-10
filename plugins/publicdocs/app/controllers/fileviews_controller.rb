@@ -28,9 +28,9 @@ class FileviewsController < ApplicationController
           
 
 
+        @comapany_attachment_id =  Boxelement.where(:company_id => User.current.companies_id).pluck(:id)
 
-
-
-
+        @company_files = @allFiles.select {|c|  @comapany_attachment_id.include? c.boxelement_id}
+        @project_files =  @allFiles.reject {|c|  @comapany_attachment_id.include? c.boxelement_id}
   end
 end
