@@ -64,7 +64,7 @@
   <%= "Description" %> <span style="color: red;">(*required)</span> <br />
   <%= f.text_field :name %>
 </div>
-<% if !params[:company_id] %>
+
 <div class= "field">
 <br />
 Visibility Settings 
@@ -83,7 +83,7 @@ Visibility Settings
 <br />
 <%= f.radio_button(:private_flag,1) %><%="Only Me"%>
 </div>
-<% end %>
+
 <div class="field">
 <% f.radio_button(:private_flag,3) %><%"Selected Users of "%>
 <% project = Project.where(id: params[:project_id]).pluck(:name) %>

@@ -11,7 +11,6 @@
   <tr bgcolor="#eaeaea">
     <td class="filename"><b><%= "File Name" %></b></td>
     <td class="filename"><b><%= "Description" %></b></td>
-    <td class="filename"><b><%= "Project" %></b></td>
     <td class="filename"><b><%= "Created On" %><b></td>
   </tr>
 
@@ -29,14 +28,7 @@
               <%= d %>
               <% end %>        
         </td>
-        <td class="filename">
-            <% projects = Boxelement.where(id: a.boxelement_id).pluck(:project_id) %>  
-            <% project_names = Project.where(id: projects).pluck(:name) %>
-            <% project_names.each do |p|%>
-              <%= p %>
-              <% end %>        
-       
-        </td>
+        
     <td class="filename" ><%= a.created_at.strftime("%B %d, %Y") %></td>
   </tr>
 
