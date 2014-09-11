@@ -1,23 +1,29 @@
 
 <div class="tabs_sukanta">
+
     <ul class="tab-links">
-        <li class="active"><a href="#tab1">Company Files</a></li>
-        <li><a href="#tab2">Project Files</a></li>
+        <li class="active"><a href="#tab1">Project Files</a></li>
+      <% if User.current.companies_id.present? %>
+        <li><a href="#tab2">Company Files</a></li>
+      <% end %>
+        
         
     </ul>
- 
+   
     <div class="tab-content">
+      
         <div id="tab1" class="tab active">
-          <%= render 'company_files' %>
-          
-        </div>
- 
-        <div id="tab2" class="tab">
           <%= render 'project_files' %> 
         </div>
  
-        
+         <% if User.current.companies_id.present? %>
+        <div id="tab2" class="tab">
+          <%= render 'company_files' %>
+        </div>
+       <% end %>
+
     </div>
+    
 </div>
 
 <script type="text/javascript">

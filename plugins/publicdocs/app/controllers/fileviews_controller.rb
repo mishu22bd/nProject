@@ -27,10 +27,14 @@ class FileviewsController < ApplicationController
         @allFiles = LinkedFile.where(boxelement_id: filelist)
           
 
-
-        @comapany_attachment_id =  Boxelement.where(:company_id => User.current.companies_id).pluck(:id)
+      if User.current.companies_id.present?
+        @comapany_attachment_id =  Boxelement.where(:company_id => User.current.companies_id).pluck(:id) 
 
         @company_files = @allFiles.select {|c|  @comapany_attachment_id.include? c.boxelement_id}
         @project_files =  @allFiles.reject {|c|  @comapany_attachment_id.include? c.boxelement_id}
+
+      else
+        @project_files = @allFiles
+      end
   end
 end
