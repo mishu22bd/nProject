@@ -895,8 +895,8 @@ div.issue{
         }
  
     li.active a, li.active a:hover {
-        background:#ccc;
-        color:#4c4c4c;
+        background:#29333A;
+        color:#FFFFFF;
     }
  
     /*----- Content of Tabs -----*/
