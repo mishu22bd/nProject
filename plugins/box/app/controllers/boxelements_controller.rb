@@ -230,9 +230,13 @@ end
     @boxelement.destroy
 
     respond_to do |format|
+      if @boxelement.project_id
       format.html {redirect_to project_files_path(@boxelement.project_id), notice: 'File has been deleted' }
-      format.html { redirect_to boxelements_url }
+      else
+      format.html {redirect_to fileviews_path, notice: 'File has been deleted' }  
+      #format.html { redirect_to boxelements_url }
       format.json { head :no_content }
+      end
     end
   end
 end
