@@ -34,13 +34,22 @@
         
     <td class="filename" ><%= a.created_at.strftime("%B %d, %Y") %></td>
 
-    <td class="borderlesstd"> </td> 
+    <td class="borderlesstd">
+    <% urlv = url_for(:controller => 'files', :action => 'visibility' , :f_id => box_id, :project_id => 18) %>
 
- <td class="borderlesstd">
+    <% company_users = User.where(companies_id: User.current.companies_id) %>
+
+          <% if file_permissions[0]==2 && company_users.count>1 %>
+              <%= link_to("Permission", urlv ) %> 
+          <% end  %>     
+     </td> 
+
+
+     <td class="borderlesstd">
       <% if file_permissions[0]==2 %>
         <%= link_to(image_tag('delete.png'), box[0],  method: :delete, data: { confirm: 'Are you sure?' }) %>
       <% end %>                        
-</td>
+     </td>
 
 
 
