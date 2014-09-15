@@ -37,4 +37,8 @@ class FileviewsController < ApplicationController
         @project_files = @allFiles
       end
   end
+
+
+  def visibility
+  end
 end

@@ -35,7 +35,9 @@
     <td class="filename" ><%= a.created_at.strftime("%B %d, %Y") %></td>
 
     <td class="borderlesstd">
-    <% urlv = url_for(:controller => 'files', :action => 'visibility' , :f_id => box_id, :project_id => 18) %>
+    <% company_id = Boxelement.where(id: box_id).pluck(:company_id) %>
+
+    <% urlv = url_for(:controller => 'fileviews', :action => 'visibility' , :f_id => box_id) %>
 
     <% company_users = User.where(companies_id: User.current.companies_id) %>
 

@@ -95,6 +95,10 @@ RedmineApp::Application.routes.draw do
   post 'issues/:object_id/watchers', :to => 'watchers#create', :object_type => 'issue'
   delete 'issues/:object_id/watchers/:user_id' => 'watchers#destroy', :object_type => 'issue'
 
+
+  
+
+
   resources :projects do
     member do
       get 'settings(/:tab)', :action => 'settings', :as => 'settings'
