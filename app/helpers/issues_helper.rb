@@ -24,6 +24,7 @@ module IssuesHelper
   def initialize_new_issue
     @tracker_id = params[:tracker_id]
     @tracker_name = params[:tracker_name]
+
     @issuesOrTasks = Issue.where(project_id: @project.id, tracker_id: @issue.tracker).last
     @issuesOrTasks.present? ? @issuesOrTasks.project_issue_id.to_i + 1 : 1
   end
