@@ -87,12 +87,11 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
     t.string   "name",         :limit => 100, :null => false
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+    t.string   "customuser"
     t.integer  "project_id"
     t.integer  "author_id"
     t.integer  "private_flag"
-    t.string   "customuser"
     t.integer  "upload_flag"
-    t.integer  "publicall"
     t.integer  "company_id"
   end
 
@@ -769,15 +768,15 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
   create_table "todo_items", :force => true do |t|
     t.integer  "issue_id",                                        :null => false
     t.integer  "todo_list_id",                                    :null => false
-    t.datetime "updated_at",   :default => '2014-05-05 14:26:34'
-    t.datetime "completed_at", :default => '2014-05-05 14:26:34'
+    t.datetime "updated_at",   :default => '2014-02-11 08:23:00'
+    t.datetime "completed_at", :default => '2014-02-11 08:23:00'
     t.integer  "position",     :default => 1
   end
 
   create_table "todo_lists", :force => true do |t|
     t.string   "name"
     t.integer  "position",   :default => 1
-    t.datetime "updated_at", :default => '2014-05-05 14:26:34'
+    t.datetime "updated_at", :default => '2014-02-11 08:23:00'
     t.integer  "project_id",                                    :null => false
     t.integer  "author_id",                                     :null => false
     t.boolean  "is_private", :default => false
