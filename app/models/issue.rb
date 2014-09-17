@@ -44,8 +44,8 @@ class Issue < ActiveRecord::Base
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 
-  scope :project_wise_tasks,   self.where(tracker_id: 4).order('created_on ASC')
-  scope :project_wise_issues,  self.where(tracker_id: 5).order('created_on ASC')
+  scope :project_wise_tasks,   where(tracker_id: 4).order('created_on ASC')
+  scope :project_wise_issues,  where(tracker_id: 5).order('created_on ASC')
 
   acts_as_nested_set :scope => 'root_id', :dependent => :destroy
   acts_as_attachable :after_add => :attachment_added, :after_remove => :attachment_removed
