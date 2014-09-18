@@ -24,10 +24,10 @@ class AutoCompletesController < ApplicationController
     if q.present?
       scope = (params[:scope] == "all" || @project.nil? ? Issue : @project.issues).visible
       if q.match(/\A#?(\d+)\z/)
-        @issues << scope.find_by_id($1.to_i)
-        #@issues << @issues.where(:project_issue_id)
+        #@issues << scope.find_by_id($1.to_i)
+        @issues = scope.where("#{Issue.table_name}.id = ? OR #{Issue.table_name}.project_issue_id = ?",$1.to_i, $1.to_i).where("#{Issue.table_name}.tracker_id = ?",params[:tracker_id].to_i)
       end
-      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order("#{Issue.table_name}.id DESC").limit(10).all
+      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").where("#{Issue.table_name}.tracker_id = ?",params[:tracker_id].to_i).order("#{Issue.table_name}.id DESC").limit(10).all
       @issues.compact!
     end
     render :layout => false

@@ -48,7 +48,7 @@
               <%= f.hidden_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id'), "data-project_issue_id" => parent_task_project_issue_id(@issue.parent_issue_id) %>
               <%= text_field_tag 'parent_issue_text', "", :id => 'parent_text_field' %>
             </p>
-            <%= javascript_tag "customObserveAutocompleteField('parent_text_field','issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project)}')" %>
+            <%= javascript_tag "customObserveAutocompleteField('parent_text_field','issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :tracker_id => @issue.tracker_id)}')" %>
         <% end %>
 
         <% if @issue.safe_attribute? 'start_date' %>
