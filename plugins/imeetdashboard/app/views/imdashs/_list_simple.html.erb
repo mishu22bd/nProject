@@ -25,7 +25,7 @@
     <tr class=" <%= cycle('odd', 'even') %> <%= i.css_classes %>">
       <td class="id">
         <%= check_box_tag("ids[]", i.id, false, :style => 'display:none;', :id => nil) %>
-        <%= link_to i.id, issue_path(i) %>
+        <%= link_to i.project_issue_id, issue_path(i) %>
       </td>
       <td ><%= link_to_project(i.project) %></td>
       <td ><%=h i.tracker %></td>

@@ -16,7 +16,7 @@ module ImdashsHelper
       order(sort_clause).
       all
   end
-
+  
   def issueswatched_items
     Issue.visible.on_active_project.watched_by(User.current.id).recently_updated.all
   end
@@ -78,5 +78,12 @@ module ImdashsHelper
       else
       return 0
     end
+  end
+
+  def project_list(project_id)
+    projects =  Project.where(:id => project_id)
+      projects.each do |project| 
+        return project
+      end
   end
 end
