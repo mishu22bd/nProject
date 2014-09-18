@@ -80,10 +80,10 @@ module ImdashsHelper
     end
   end
 
-  def project_list(project_id)
-    projects =  Project.where(:id => project_id)
-      projects.each do |project| 
-        return project
-      end
-  end
+  # def project_list(project_id)
+  #   projects =  Project.where(:id => project_id)
+  #     projects.each do |project| 
+  #       return project
+  #     end
+  # end
 end
