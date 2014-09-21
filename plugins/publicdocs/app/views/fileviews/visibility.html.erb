@@ -3,13 +3,12 @@
 <% @fileusers = Fileuser.where(:attachment_id => file_id) %>
 
 
-
 <h2> Edit Permission of
 
 <% attachmentnames = Boxelement.where(id: file_id).pluck(:name) %>
-<% for attachmentname in attachmentnames %>
-<%= attachmentname %>
-<% end %>
+
+<%= attachmentnames[0] %>
+
 
  </h2>
 
@@ -32,11 +31,14 @@
              <% author_id = author %>
              <% end %>
             <% if author_id.to_s == fileuser.user_id  %>
+            <%#= "self" %>
+            <% elsif User.where(id: fileuser.user_id).pluck(:login) == [] %>
+              
+            <%#= "group" %>
 
-             <% elsif User.where(id: fileuser.user_id).pluck(:login) == [] %>
             <% else %>
             
-
+              <%#= "Moo" %>
               <% if users.include? fileuser.user_id %>
               <% else %>
               <% users<< fileuser.user_id %>
@@ -71,6 +73,7 @@
 
 
 <% end %>
+
 
 
 
