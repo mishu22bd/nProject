@@ -365,7 +365,6 @@ span.search_for_watchers a, span.add_attachment a {padding-left:16px; background
 div.codash{
   float: left;
   width : 97%;
-  margin-left: -13px;
 } 
 div.pdash{
   float: left;
@@ -384,7 +383,7 @@ position: relative;
 }
 div.cdash{
   float: right;
-margin-top: 0px;
+  margin-top: 0px;
 }
 div.tasklist{
   float: left;
