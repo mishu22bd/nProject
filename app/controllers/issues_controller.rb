@@ -113,7 +113,7 @@ class IssuesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def tasks
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
