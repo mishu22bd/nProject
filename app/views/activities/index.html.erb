@@ -31,12 +31,12 @@
 
               <% if journal.issue.tracker_id == 5 %>
                   <dt id="19540517">
-                  <h4><%= link_to "Issue # #{journal.issue.id} ( #{journal.issue.status} ) #{journal.issue.subject}", issue_path(journal.issue.id) %></h4>
+                  <h4><%= link_to "Issue # #{journal.issue.project_issue_id} ( #{journal.issue.status} ) #{journal.issue.subject}", issue_path(journal.issue.id) %></h4>
                   </dt>
 
               <% else %>
                   <dt id="19540517">
-                  <h4><%= link_to "Task # #{journal.issue.id} ( #{journal.issue.status} ) #{journal.issue.subject}", issue_path(journal.issue.id) %></h4>
+                  <h4><%= link_to "Task # #{journal.issue.project_issue_id} ( #{journal.issue.status} ) #{journal.issue.subject}", issue_path(journal.issue.id) %></h4>
                   </dt>
               <% end %>
 
@@ -52,7 +52,7 @@
             <tr>
               <td>
                     <%= avatar(journal.user, :size => "24") %>
-                <%= "Task #" %> <%= journal.issue.subject %> , <i><%= " Assigned to" %></i>
+                <%= "Task #" %> <%= journal.issue.project_issue_id %> , <i><%= " Assigned to" %></i>
 
                 <%= User.find(journal.issue.assigned_to_id).full_name %>
                 has been updated on <%= journal.issue.updated_on.strftime("%B %d, %Y") %>
