@@ -97,8 +97,22 @@ class UsersController < ApplicationController
 
     if @user.save
       @user.pref.attributes = params[:pref]
-      @user.pref.save
+      @user.pref.save	
 
+
+      #this code block will allow newly added company users to view previously added files
+      if@user.companies_id
+
+          attachments = Boxelement.where(company_id: @user.companies_id)
+          attachments.each do|attachment|
+              f = Fileuser.new
+              f.user_id = @user.id
+              f.attachment_id = attachment.id
+              f.permission_flag = 1
+              f.save
+          end
+      end
+			
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
