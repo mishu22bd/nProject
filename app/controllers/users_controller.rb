@@ -102,8 +102,7 @@ class UsersController < ApplicationController
 
       #this code block will allow newly added company users to view previously added files
       if@user.companies_id
-
-          attachments = Boxelement.where(company_id: @user.companies_id)
+          attachments = Boxelement.where(company_id: @user.companies_id, private_flag: 0)
           attachments.each do|attachment|
               f = Fileuser.new
               f.user_id = @user.id
