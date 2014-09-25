@@ -173,6 +173,20 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
+
+    # make the admin owner of the file after deletion of the user
+    if @user.companies_id
+    admins = User.where(companies_id: @user.companies_id, admin: 1).pluck(:id)
+    attachments = Fileuser.where(user_id: @user.id, permission_flag: 2).pluck(:attachment_id)
+    attachments.each  do|attachment|
+      admins.each do|admin|
+          f = Fileuser.where(user_id: admin, attachment_id: attachment)
+          f[0].permission_flag = 2
+          f[0].save
+          end  
+      end
+    end
+
     respond_to do |format|
       format.html { redirect_back_or_default(users_path) }
       format.api  { render_api_ok }
