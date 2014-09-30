@@ -22,8 +22,8 @@ class ActivitiesController < ApplicationController
 
   def index
 
-    # @days = Setting.activity_days_default.to_i
-    @days = 30
+    @days = Setting.activity_days_default.to_i
+    #@days = 30
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
     if params[:from]
       begin
@@ -36,7 +36,9 @@ class ActivitiesController < ApplicationController
     @date_from = @date_to - @days
 
     issues = Issue.where(project_id: @project.id)
-    @journals = Journal.includes(:user, :details).where(:journalized_id => issues.collect(&:id), :journalized_type => "Issue").where(:created_on => @date_from.beginning_of_day..@date_to.end_of_day).reorder("#{Journal.table_name}.id DESC").all
+    @journals = Journal.includes(:user, :details).where(:journalized_id => issues.collect(&:id), :journalized_type => "Issue")
+                .where(:created_on => @date_from.beginning_of_day..@date_to.end_of_day)
+                .reorder("#{Journal.table_name}.id DESC").all
 
 
     respond_to do |format|

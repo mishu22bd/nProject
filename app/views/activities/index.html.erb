@@ -10,14 +10,14 @@
 <body>
 
 <div class="container">
-  <h1><%= @author.nil? ? l(:label_audit) : l(:label_user_activity, link_to_user(@author)).html_safe %>
+  <h1><%#= @author.nil? ? l(:label_audit) : l(:label_user_activity, link_to_user(@author)).html_safe %>
   </h1>
-  <% date_from = [] %>
+  <%# date_from = [] %>
   <% date_from = Issue.where(project_id: @project.id).pluck(:start_date).first %>
   <% date_to = Issue.where(project_id: @project.id).pluck(:start_date).last %>
   <span class="marker"><span class="dot"></span></span>
 
-  <p class="lead" style="margin-top:70px; float:left;"><%= l(:label_date_from_to, :start => format_date(@date_from), :end => format_date(@date_to)) %>
+  <p class="lead" style="margin-top:70px; float:left;"><%= l(:label_date_from_to, :start => format_date(date_from), :end => format_date(date_to)) %>
   </p>
 
 
@@ -26,17 +26,17 @@
     </div>
 
     <% @journals.each do |journal| %>
-
+        <% user = User.find(journal.issue.assigned_to_id).full_name %>
         <div class="timelineMajor">
 
               <% if journal.issue.tracker_id == 5 %>
                   <dt id="19540517">
-                  <h4><%= link_to "Issue # #{journal.issue.project_issue_id} ( #{journal.issue.status} ) #{journal.issue.subject}", issue_path(journal.issue.id) %></h4>
+                  <h4><%= link_to "Issue # #{journal.issue.project_issue_id} ( #{journal.issue.status} ) #{journal.issue.subject} Assigned to #{user}", issue_path(journal.issue.id) %></h4>
                   </dt>
 
               <% else %>
                   <dt id="19540517">
-                  <h4><%= link_to "Task # #{journal.issue.project_issue_id} ( #{journal.issue.status} ) #{journal.issue.subject}", issue_path(journal.issue.id) %></h4>
+                  <h4><%= link_to "Issue # #{journal.issue.project_issue_id} ( #{journal.issue.status} ) #{journal.issue.subject} Assigned to #{user}", issue_path(journal.issue.id) %></h4>
                   </dt>
               <% end %>
 
@@ -49,31 +49,23 @@
               </td>
             </tr>
 
+            
             <tr>
               <td>
-                    <%= avatar(journal.user, :size => "24") %>
-                <%= "Task #" %> <%= journal.issue.project_issue_id %> , <i><%= " Assigned to" %></i>
-
-                <%= User.find(journal.issue.assigned_to_id).full_name %>
-                has been updated on <%= journal.issue.updated_on.strftime("%B %d, %Y") %>
-              </td>
-            </tr>
-            <tr>
-              <td>Update Time:
-                <%= journal.issue.updated_on.strftime("%B %d, %Y - %I:%M:%S %p") %>  by <%= journal.user.full_name %>
+              <%= avatar(journal.user, :size => "24") %>
+              Updated by: <%= journal.user.full_name %> at
+                <%= journal.issue.updated_on.strftime("%B %d, %Y - %I:%M:%S %p") %>   
               </td>
             </tr>
 
-            <tr>
-              <td>Subject:
-                <% subject = journal.issue.subject %>
-                <%= link_to subject, issue_path(journal.issue.id) %>
-              </td>
-            </tr>
+           
 
             <tr>
-              <td>Description :
+              <td>
+               <% if journal.notes.present? %>
+              Note :
                 <%= journal.notes %>
+                <% end %>
                 <% if journal.details.any? %>
                     <ul class="details">
                       <% details_to_strings(journal.visible_details).each do |string| %>
