@@ -139,6 +139,21 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
 
   add_index "changesets_issues", ["changeset_id", "issue_id"], :name => "changesets_issues_ids", :unique => true
 
+  create_table "cms_menus", :force => true do |t|
+    t.string   "name"
+    t.string   "caption"
+    t.string   "path"
+    t.integer  "status_id"
+    t.integer  "position"
+    t.string   "menu_type"
+    t.integer  "parent_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "visibility"
+  end
+
+  add_index "cms_menus", ["visibility"], :name => "index_cms_menus_on_visibility"
+
   create_table "comments", :force => true do |t|
     t.string   "commented_type", :limit => 30, :default => "", :null => false
     t.integer  "commented_id",                 :default => 0,  :null => false
@@ -403,6 +418,28 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
   add_index "enumerations", ["id", "type"], :name => "index_enumerations_on_id_and_type"
   add_index "enumerations", ["project_id"], :name => "index_enumerations_on_project_id"
 
+  create_table "expenses", :force => true do |t|
+    t.date     "expense_date"
+    t.decimal  "price",          :precision => 10, :scale => 2, :default => 0.0,  :null => false
+    t.text     "description"
+    t.integer  "contact_id"
+    t.integer  "author_id"
+    t.integer  "project_id"
+    t.integer  "status_id"
+    t.datetime "created_at",                                                      :null => false
+    t.datetime "updated_at",                                                      :null => false
+    t.integer  "assigned_to_id"
+    t.string   "currency"
+    t.boolean  "is_billable",                                   :default => true
+    t.decimal  "tax",            :precision => 6,  :scale => 4
+  end
+
+  add_index "expenses", ["assigned_to_id"], :name => "index_expenses_on_assigned_to_id"
+  add_index "expenses", ["author_id"], :name => "index_expenses_on_author_id"
+  add_index "expenses", ["contact_id"], :name => "index_expenses_on_contact_id"
+  add_index "expenses", ["project_id"], :name => "index_expenses_on_project_id"
+  add_index "expenses", ["status_id"], :name => "index_expenses_on_status_id"
+
   create_table "fileusers", :force => true do |t|
     t.string  "user_id"
     t.integer "attachment_id"
@@ -420,6 +457,9 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
     t.string  "name"
     t.integer "invitee_id"
     t.boolean "flag",       :default => true
+  end
+
+  create_table "homes", :force => true do |t|
   end
 
   create_table "imeetcards", :force => true do |t|
@@ -440,10 +480,70 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
     t.integer  "duration"
   end
 
+  create_table "invoice_lines", :force => true do |t|
+    t.integer  "invoice_id"
+    t.integer  "position"
+    t.decimal  "quantity",                   :precision => 10, :scale => 2, :default => 1.0, :null => false
+    t.string   "description", :limit => 512
+    t.decimal  "tax",                        :precision => 10, :scale => 2
+    t.decimal  "price",                      :precision => 10, :scale => 2, :default => 0.0, :null => false
+    t.string   "units"
+    t.datetime "created_at",                                                                 :null => false
+    t.datetime "updated_at",                                                                 :null => false
+    t.decimal  "discount",                   :precision => 6,  :scale => 4
+  end
+
+  add_index "invoice_lines", ["invoice_id"], :name => "index_invoice_lines_on_invoice_id"
+
+  create_table "invoice_payments", :force => true do |t|
+    t.decimal  "amount",       :precision => 10, :scale => 2
+    t.datetime "payment_date"
+    t.integer  "invoice_id"
+    t.string   "description"
+    t.integer  "author_id"
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+  end
+
+  add_index "invoice_payments", ["invoice_id"], :name => "index_invoice_payments_on_invoice_id"
+
+  create_table "invoices", :force => true do |t|
+    t.string   "number"
+    t.datetime "invoice_date"
+    t.decimal  "discount",       :precision => 10, :scale => 2, :default => 0.0, :null => false
+    t.integer  "discount_type",                                 :default => 0,   :null => false
+    t.text     "description"
+    t.datetime "due_date"
+    t.string   "language"
+    t.string   "currency"
+    t.integer  "status_id"
+    t.integer  "contact_id"
+    t.integer  "project_id"
+    t.integer  "assigned_to_id"
+    t.integer  "author_id"
+    t.datetime "created_at",                                                     :null => false
+    t.datetime "updated_at",                                                     :null => false
+    t.string   "subject"
+    t.decimal  "amount",         :precision => 10, :scale => 2, :default => 0.0, :null => false
+    t.integer  "comments_count"
+    t.datetime "paid_date"
+    t.decimal  "balance",        :precision => 10, :scale => 2, :default => 0.0
+    t.string   "type"
+    t.string   "order_number"
+  end
+
+  add_index "invoices", ["assigned_to_id"], :name => "index_invoices_on_assigned_to_id"
+  add_index "invoices", ["author_id"], :name => "index_invoices_on_author_id"
+  add_index "invoices", ["contact_id"], :name => "index_invoices_on_contact_id"
+  add_index "invoices", ["order_number"], :name => "index_invoices_on_order_number"
+  add_index "invoices", ["project_id"], :name => "index_invoices_on_project_id"
+  add_index "invoices", ["status_id"], :name => "index_invoices_on_status_id"
+
   create_table "issue_categories", :force => true do |t|
-    t.integer "project_id",                   :default => 0,  :null => false
-    t.string  "name",           :limit => 30, :default => "", :null => false
+    t.integer "project_id",                          :default => 0,  :null => false
+    t.string  "name",                  :limit => 30, :default => "", :null => false
     t.integer "assigned_to_id"
+    t.string  "reminder_notification"
   end
 
   add_index "issue_categories", ["assigned_to_id"], :name => "index_issue_categories_on_assigned_to_id"
@@ -473,30 +573,31 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
   add_index "issue_statuses", ["position"], :name => "index_issue_statuses_on_position"
 
   create_table "issues", :force => true do |t|
-    t.integer  "tracker_id",                          :null => false
-    t.integer  "project_id",                          :null => false
-    t.string   "subject",          :default => "",    :null => false
+    t.integer  "tracker_id",                               :null => false
+    t.integer  "project_id",                               :null => false
+    t.string   "subject",               :default => "",    :null => false
     t.text     "description"
     t.date     "due_date"
     t.integer  "category_id"
-    t.integer  "status_id",                           :null => false
+    t.integer  "status_id",                                :null => false
     t.integer  "assigned_to_id"
-    t.integer  "priority_id",                         :null => false
+    t.integer  "priority_id",                              :null => false
     t.integer  "fixed_version_id"
-    t.integer  "author_id",                           :null => false
-    t.integer  "lock_version",     :default => 0,     :null => false
+    t.integer  "author_id",                                :null => false
+    t.integer  "lock_version",          :default => 0,     :null => false
     t.datetime "created_on"
     t.datetime "updated_on"
     t.date     "start_date"
-    t.integer  "done_ratio",       :default => 0,     :null => false
+    t.integer  "done_ratio",            :default => 0,     :null => false
     t.float    "estimated_hours"
     t.integer  "parent_id"
     t.integer  "root_id"
     t.integer  "lft"
     t.integer  "rgt"
-    t.boolean  "is_private",       :default => false, :null => false
+    t.boolean  "is_private",            :default => false, :null => false
     t.datetime "closed_on"
     t.integer  "project_issue_id"
+    t.string   "reminder_notification"
   end
 
   add_index "issues", ["assigned_to_id"], :name => "index_issues_on_assigned_to_id"
@@ -627,6 +728,44 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
     t.integer "timestamp",  :null => false
     t.string  "server_url"
     t.string  "salt",       :null => false
+  end
+
+  create_table "pages", :force => true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.string   "summary"
+    t.string   "keywords"
+    t.text     "description"
+    t.text     "content"
+    t.string   "content_type"
+    t.integer  "status_id",    :default => 0
+    t.integer  "parent_id"
+    t.integer  "project_id"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+    t.string   "visibility"
+  end
+
+  add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
+  add_index "pages", ["visibility"], :name => "index_pages_on_visibility"
+
+  create_table "pages_parts", :force => true do |t|
+    t.integer "page_id"
+    t.integer "part_id"
+    t.integer "position"
+    t.integer "status_id", :default => 0
+  end
+
+  add_index "pages_parts", ["page_id", "part_id"], :name => "index_pages_parts_on_page_id_and_part_id"
+
+  create_table "parts", :force => true do |t|
+    t.string   "name"
+    t.string   "part_type"
+    t.text     "content"
+    t.string   "content_type"
+    t.boolean  "is_cached",    :default => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "projects", :force => true do |t|
@@ -768,15 +907,15 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
   create_table "todo_items", :force => true do |t|
     t.integer  "issue_id",                                        :null => false
     t.integer  "todo_list_id",                                    :null => false
-    t.datetime "updated_at",   :default => '2014-02-11 08:23:00'
-    t.datetime "completed_at", :default => '2014-02-11 08:23:00'
+    t.datetime "updated_at",   :default => '2014-02-09 12:51:00'
+    t.datetime "completed_at", :default => '2014-02-09 12:51:00'
     t.integer  "position",     :default => 1
   end
 
   create_table "todo_lists", :force => true do |t|
     t.string   "name"
     t.integer  "position",   :default => 1
-    t.datetime "updated_at", :default => '2014-02-11 08:23:00'
+    t.datetime "updated_at", :default => '2014-02-09 12:51:00'
     t.integer  "project_id",                                    :null => false
     t.integer  "author_id",                                     :null => false
     t.boolean  "is_private", :default => false
@@ -810,23 +949,23 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
   add_index "user_preferences", ["user_id"], :name => "index_user_preferences_on_user_id"
 
   create_table "users", :force => true do |t|
-    t.string   "login",                            :default => "",    :null => false
-    t.string   "hashed_password",    :limit => 40, :default => "",    :null => false
-    t.string   "firstname",          :limit => 30, :default => "",    :null => false
-    t.string   "lastname",                         :default => "",    :null => false
-    t.string   "mail",               :limit => 60, :default => "",    :null => false
-    t.boolean  "admin",                            :default => false, :null => false
-    t.integer  "status",                           :default => 1,     :null => false
+    t.string   "login",                               :default => "",    :null => false
+    t.string   "hashed_password",       :limit => 40, :default => "",    :null => false
+    t.string   "firstname",             :limit => 30, :default => "",    :null => false
+    t.string   "lastname",                            :default => "",    :null => false
+    t.string   "mail",                  :limit => 60, :default => "",    :null => false
+    t.boolean  "admin",                               :default => false, :null => false
+    t.integer  "status",                              :default => 1,     :null => false
     t.datetime "last_login_on"
-    t.string   "language",           :limit => 5,  :default => ""
+    t.string   "language",              :limit => 5,  :default => ""
     t.integer  "auth_source_id"
     t.datetime "created_on"
     t.datetime "updated_on"
     t.string   "type"
     t.string   "identity_url"
-    t.string   "mail_notification",                :default => "",    :null => false
-    t.string   "salt",               :limit => 64
-    t.boolean  "must_change_passwd",               :default => false, :null => false
+    t.string   "mail_notification",                   :default => "",    :null => false
+    t.string   "salt",                  :limit => 64
+    t.boolean  "must_change_passwd",                  :default => false, :null => false
     t.string   "phone"
     t.string   "address"
     t.string   "skype"
@@ -834,7 +973,7 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
     t.string   "job_title"
     t.string   "company"
     t.string   "middlename"
-    t.integer  "gender",             :limit => 2
+    t.integer  "gender",                :limit => 2
     t.string   "twitter"
     t.string   "facebook"
     t.string   "linkedin"
@@ -842,6 +981,7 @@ ActiveRecord::Schema.define(:version => 20140904092647) do
     t.date     "appearance_date"
     t.integer  "department_id"
     t.integer  "companies_id"
+    t.string   "reminder_notification"
   end
 
   add_index "users", ["auth_source_id"], :name => "index_users_on_auth_source_id"
