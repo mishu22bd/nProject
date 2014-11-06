@@ -30,11 +30,11 @@
 			<td><ul class="com-user">
 			     <% count = 1 %>
 				<% for user in @users %>
-				<li><%= count %> ) <%= user.name %></li>
+				<li><%= count %> ) <%= avatar(user, :size => "14") %> <%= link_to user.name, edit_user_path(user) %></li>
 				<% count += 1 %>
 				<% end %>
 				</ul>
-			</td>
+			</td>edit_user_path(user)
 		</tr>
 
 		<tr>
@@ -42,7 +42,7 @@
 			<td><ul class="com-user">
 			     <% count = 1 %>
 				<% for project in @projects %>
-				<li><%= count %> ) <%= project.name %></li>
+				<li><%= count %> ) <%= link_to_project(project) %></li>
 				<% count += 1 %>
 				<% end %>
 				</ul>
