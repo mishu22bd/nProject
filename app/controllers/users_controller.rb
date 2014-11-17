@@ -97,8 +97,21 @@ class UsersController < ApplicationController
 
     if @user.save
       @user.pref.attributes = params[:pref]
-      @user.pref.save
+      @user.pref.save	
 
+
+      #this code block will allow newly added company users to view previously added files
+      if@user.companies_id
+          attachments = Boxelement.where(company_id: @user.companies_id, private_flag: 0)
+          attachments.each do|attachment|
+              f = Fileuser.new
+              f.user_id = @user.id
+              f.attachment_id = attachment.id
+              f.permission_flag = 1
+              f.save
+          end
+      end
+			
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
@@ -173,6 +186,20 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
+
+    # make the admin owner of the file after deletion of the user
+    if @user.companies_id
+    admins = User.where(companies_id: @user.companies_id, admin: 1).pluck(:id)
+    attachments = Fileuser.where(user_id: @user.id, permission_flag: 2).pluck(:attachment_id)
+    attachments.each  do|attachment|
+      admins.each do|admin|
+          f = Fileuser.where(user_id: admin, attachment_id: attachment)
+          f[0].permission_flag = 2
+          f[0].save
+          end  
+      end
+    end
+
     respond_to do |format|
       format.html { redirect_back_or_default(users_path) }
       format.api  { render_api_ok }

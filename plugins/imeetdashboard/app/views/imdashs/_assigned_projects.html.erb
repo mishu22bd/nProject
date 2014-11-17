@@ -23,9 +23,8 @@
 <table class="tableSection">
  <thead><tr>
     <th ><b><%= "ID" %></b></th>
-    <th ><b><%= "Issues" %></b></th>
     <th ><b><%= "Project" %></b></th>
-
+    <th ><b><%= "Issues" %></b></th>
     <th ><b><%= "Due Date" %></b></th>
     <th ><b><%= "Priority" %></b></th>
     <th><b><%= "Progressive Status" %></b></th>
@@ -38,15 +37,14 @@
 
     <%# break  if count>15 %>
     <tr class=" <%= cycle("odd", "even") %>">
-    <td> <%= link_to i.id, issue_path(i) %> </td>
-    <td ><%#= link_to_issue  i %>
-    <%= link_to truncate(i.subject.capitalize, :length => 60), issue_path(i) %> <!--(<%=h i.status %>) -->
+    <td> <%= link_to i.project_issue_id, issue_path(i) %> </td>
+    <td>
+      <em><b><%= link_to_project(i.project) %></b></em>
     </td>
-    <td ><% p= Project.where(id: i.project_id) %>
-                <%p.each do |l| %>
-                <%= link_to_project l %>
-                <% end %>
+    <td>
+      <%= link_to truncate(i.subject.capitalize, :length => 60), issue_path(i) %> <!--(<%=h i.status %>) -->
     </td>
+    
       <td>
      <%= i.due_date %>
   </td>

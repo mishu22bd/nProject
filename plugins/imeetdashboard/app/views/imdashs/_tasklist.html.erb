@@ -13,8 +13,8 @@
 <table class="tableSection" >
 <thead><tr>
     <th ><b><%= "ID" %></b></th>
-    <th ><b><%= "Tasks" %></b></th>
     <th ><b><%= "Project" %></b></th>
+    <th ><b><%= "subject" %></b></th>
      <th><b><%= "Due Date" %></b></th>
     <th><b><%= "Priority" %></b></th>
     <th ><b><%= "Progressive Status" %></b></th>
@@ -28,15 +28,14 @@
 
     <%# break  if count>15 %>
     <tr class=" <%= cycle("odd", "even") %>">
-    <td> <%= link_to i.id, issue_path(i) %> </td>
+    <td> <%= link_to i.project_issue_id, issue_path(i) %> </td>
+    <td>
+      <em><b><%= link_to_project(i.project) %></b></em>
+    </td>
     <td ><%#= link_to_issue  i %>
     <%= link_to truncate(i.subject.capitalize, :length => 60), issue_path(i) %> <!--(<%=h i.status %>) -->
     </td>
-    <td><% p = Project.where(id: i.project_id) %>
-                <% p.each do |l| %>
-                <%= link_to_project l %>
-                <% end %>
-    </td>
+   
      <td> <%= i.due_date %></td>
     <td>
     <% if i.priority_id == 1 %>
@@ -90,7 +89,7 @@
      <% elsif sub_date!= nil && sub_date == 0 && i.done_ratio == 100 %>
           <%#= image_tag '/plugin_assets/imeetdashboard/images/green.jpg', :size  => '22x22' %> 
       <div class="nice round progresswork large-6"> 
-      <span class="meter" style="width: <%= i.done_ratio %>%"><%= i.done_ratio %>%</span> 
+      <span class="meter" style="width: <%= i.done_ratio %>%"><%= i.done_ratio %>%</span>
       </div> 
 
      <% end %> 

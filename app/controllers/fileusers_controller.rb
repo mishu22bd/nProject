@@ -52,15 +52,19 @@ def update_multiple
 
 	Fileuser.update(params[:fileusers].keys,params[:fileusers].values)
 	attachment_id_of_file =  params[:fileusers].values[0][:attachment_id]
-	puts attachment_id_of_file
+	#puts attachment_id_of_file
 	#project_ids = Attachment.where(:id => attachment_id_of_file).pluck(:container_id)
 	project_ids =  Boxelement.where(:id => attachment_id_of_file).pluck(:project_id)
 
-	puts project_ids
-	Rails.logger.info "Hello"
+	#puts project_ids
+	#Rails.logger.info "Hello"
 	#for project_id in project_ids
+
+	if project_ids[0]	
 	    redirect_to project_files_path(project_ids[0])
-	#end
+	else
+		redirect_to fileviews_path
+	end
 
  
 end

@@ -20,6 +20,15 @@
 module IssuesHelper
   include ApplicationHelper
 
+
+  def initialize_new_issue
+    @tracker_id = params[:tracker_id]
+    @tracker_name = params[:tracker_name]
+
+    @issuesOrTasks = Issue.where(project_id: @project.id, tracker_id: @issue.tracker).last
+    @issuesOrTasks.present? ? @issuesOrTasks.project_issue_id.to_i + 1 : 1
+  end
+
   def issue_list(issues, &block)
     ancestors = []
     issues.each do |issue|
@@ -49,16 +58,21 @@ module IssuesHelper
     @cached_label_project ||= l(:field_project)
 
     link_to_issue(issue) + "<br /><br />".html_safe +
-      "<strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />".html_safe +
-      "<strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />".html_safe +
-      "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />".html_safe +
-      "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />".html_safe +
-      "<strong>#{@cached_label_assigned_to}</strong>: #{h(issue.assigned_to)}<br />".html_safe +
-      "<strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}".html_safe
+        "<strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />".html_safe +
+        "<strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />".html_safe +
+        "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />".html_safe +
+        "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />".html_safe +
+        "<strong>#{@cached_label_assigned_to}</strong>: #{h(issue.assigned_to)}<br />".html_safe +
+        "<strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}".html_safe
   end
 
   def issue_heading(issue)
     h("#{issue.tracker} ##{issue.project_issue_id}")
+  end
+
+
+  def parent_task_project_issue_id(issue_id)
+    Issue.find(issue_id).project_issue_id rescue ''
   end
 
   def render_issue_subject_with_tree(issue)
@@ -83,12 +97,12 @@ module IssuesHelper
       css = "issue issue-#{child.id} hascontextmenu"
       css << " idnt idnt-#{level}" if level > 0
       s << content_tag('tr',
-             content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
-             content_tag('td', link_to_issue(child, :truncate => 60, :project => (issue.project_id != child.project_id)), :class => 'subject') +
-             content_tag('td', h(child.status)) +
-             content_tag('td', link_to_user(child.assigned_to)) +
-             content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
-             :class => css)
+                       content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
+                           content_tag('td', link_to_issue(child, :truncate => 60, :project => (issue.project_id != child.project_id)), :class => 'subject') +
+                           content_tag('td', h(child.status)) +
+                           content_tag('td', link_to_user(child.assigned_to)) +
+                           content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
+                       :class => css)
     end
     s << '</table></form>'
     s.html_safe
@@ -104,16 +118,16 @@ module IssuesHelper
       end
     end
     messages.map { |message, issues|
-      "#{message}: " + issues.map {|i| "##{i.id}"}.join(', ')
+      "#{message}: " + issues.map { |i| "##{i.id}" }.join(', ')
     }
- end
+  end
 
   # Returns a link for adding a new subtask to the given issue
   def link_to_new_subtask(issue)
     attrs = {
-      :tracker_id => issue.tracker,
-      :parent_issue_id => issue
-    
+        :tracker_id => issue.tracker,
+        :parent_issue_id => issue
+
     }
     link_to(l(:button_add), new_project_issue_path(issue.project, :issue => attrs))
   end
@@ -183,7 +197,7 @@ module IssuesHelper
   def issues_destroy_confirmation_message(issues)
     issues = [issues] unless issues.is_a?(Array)
     message = l(:text_issues_destroy_confirmation)
-    descendant_count = issues.inject(0) {|memo, i| memo += (i.right - i.left - 1)/2}
+    descendant_count = issues.inject(0) { |memo, i| memo += (i.right - i.left - 1)/2 }
     if descendant_count > 0
       issues.each do |issue|
         next if issue.root?
@@ -201,10 +215,10 @@ module IssuesHelper
   def sidebar_queries
     unless @sidebar_queries
       @sidebar_queries = IssueQuery.visible.
-        order("#{Query.table_name}.name ASC").
-        # Project specific queries and global queries
-        where(@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]).
-        all
+          order("#{Query.table_name}.name ASC").
+          # Project specific queries and global queries
+          where(@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]).
+          all
     end
     @sidebar_queries
   end
@@ -215,14 +229,14 @@ module IssuesHelper
     url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : params
 
     content_tag('h3', title) + "\n" +
-      content_tag('ul',
-        queries.collect {|query|
-            css = 'query'
-            css << ' selected' if query == @query
-            content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css))
-          }.join("\n").html_safe,
-        :class => 'queries'
-      ) + "\n"
+        content_tag('ul',
+                    queries.collect { |query|
+                      css = 'query'
+                      css << ' selected' if query == @query
+                      content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css))
+                    }.join("\n").html_safe,
+                    :class => 'queries'
+        ) + "\n"
   end
 
   def render_sidebar_queries
@@ -248,9 +262,9 @@ module IssuesHelper
   def render_email_issue_attributes(issue, user, html=false)
     items = email_issue_attributes(issue, user)
     if html
-      content_tag('ul', items.map{|s| content_tag('li', s)}.join("\n").html_safe)
+      content_tag('ul', items.map { |s| content_tag('li', s) }.join("\n").html_safe)
     else
-      items.map{|s| "* #{s}"}.join("\n")
+      items.map { |s| "* #{s}" }.join("\n")
     end
   end
 
@@ -294,56 +308,56 @@ module IssuesHelper
   def show_detail(detail, no_html=false, options={})
     multiple = false
     case detail.property
-    when 'attr'
-      field = detail.prop_key.to_s.gsub(/\_id$/, "")
-      label = l(("field_" + field).to_sym)
-      case detail.prop_key
-      when 'due_date', 'start_date'
-        value = format_date(detail.value.to_date) if detail.value
-        old_value = format_date(detail.old_value.to_date) if detail.old_value
+      when 'attr'
+        field = detail.prop_key.to_s.gsub(/\_id$/, "")
+        label = l(("field_" + field).to_sym)
+        case detail.prop_key
+          when 'due_date', 'start_date'
+            value = format_date(detail.value.to_date) if detail.value
+            old_value = format_date(detail.old_value.to_date) if detail.old_value
 
-      when 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
-            'priority_id', 'category_id', 'fixed_version_id'
-        value = find_name_by_reflection(field, detail.value)
-        old_value = find_name_by_reflection(field, detail.old_value)
+          when 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
+              'priority_id', 'category_id', 'fixed_version_id'
+            value = find_name_by_reflection(field, detail.value)
+            old_value = find_name_by_reflection(field, detail.old_value)
 
-      when 'estimated_hours'
-        value = "%0.02f" % detail.value.to_f unless detail.value.blank?
-        old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
+          when 'estimated_hours'
+            value = "%0.02f" % detail.value.to_f unless detail.value.blank?
+            old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
 
-      when 'parent_id'
-        label = l(:field_parent_issue)
-        value = "##{detail.value}" unless detail.value.blank?
-        old_value = "##{detail.old_value}" unless detail.old_value.blank?
+          when 'parent_id'
+            label = l(:field_parent_issue)
+            value = "##{detail.value}" unless detail.value.blank?
+            old_value = "##{detail.old_value}" unless detail.old_value.blank?
 
-      when 'is_private'
-        value = l(detail.value == "0" ? :general_text_No : :general_text_Yes) unless detail.value.blank?
-        old_value = l(detail.old_value == "0" ? :general_text_No : :general_text_Yes) unless detail.old_value.blank?
-      end
-    when 'cf'
-      custom_field = detail.custom_field
-      if custom_field
-        multiple = custom_field.multiple?
-        label = custom_field.name
-        value = format_value(detail.value, custom_field.field_format) if detail.value
-        old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
-      end
-    when 'attachment'
-      label = l(:label_attachment)
-    when 'relation'
-      if detail.value && !detail.old_value
-        rel_issue = Issue.visible.find_by_id(detail.value)
-        value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.value}" :
-                  (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
-      elsif detail.old_value && !detail.value
-        rel_issue = Issue.visible.find_by_id(detail.old_value)
-        old_value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.old_value}" :
-                          (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
-      end
-      label = l(detail.prop_key.to_sym)
+          when 'is_private'
+            value = l(detail.value == "0" ? :general_text_No : :general_text_Yes) unless detail.value.blank?
+            old_value = l(detail.old_value == "0" ? :general_text_No : :general_text_Yes) unless detail.old_value.blank?
+        end
+      when 'cf'
+        custom_field = detail.custom_field
+        if custom_field
+          multiple = custom_field.multiple?
+          label = custom_field.name
+          value = format_value(detail.value, custom_field.field_format) if detail.value
+          old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
+        end
+      when 'attachment'
+        label = l(:label_attachment)
+      when 'relation'
+        if detail.value && !detail.old_value
+          rel_issue = Issue.visible.find_by_id(detail.value)
+          value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.value}" :
+              (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
+        elsif detail.old_value && !detail.value
+          rel_issue = Issue.visible.find_by_id(detail.old_value)
+          old_value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.old_value}" :
+              (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
+        end
+        label = l(detail.prop_key.to_sym)
     end
     call_hook(:helper_issues_show_detail_after_setting,
-              {:detail => detail, :label => label, :value => value, :old_value => old_value })
+              {:detail => detail, :label => label, :value => value, :old_value => old_value})
 
     label ||= detail.prop_key
     value ||= detail.value
@@ -360,10 +374,10 @@ module IssuesHelper
         value = link_to_attachment(atta, :download => true, :only_path => options[:only_path])
         if options[:only_path] != false && atta.is_text?
           value += link_to(
-                       image_tag('magnifier.png'),
-                       :controller => 'attachments', :action => 'show',
-                       :id => atta, :filename => atta.filename
-                     )
+              image_tag('magnifier.png'),
+              :controller => 'attachments', :action => 'show',
+              :id => atta, :filename => atta.filename
+          )
         end
       else
         value = content_tag("i", h(value)) if value
@@ -374,24 +388,24 @@ module IssuesHelper
       s = l(:text_journal_changed_no_detail, :label => label)
       unless no_html
         diff_link = link_to 'diff',
-          {:controller => 'journals', :action => 'diff', :id => detail.journal_id,
-           :detail_id => detail.id, :only_path => options[:only_path]},
-          :title => l(:label_view_diff)
+                            {:controller => 'journals', :action => 'diff', :id => detail.journal_id,
+                             :detail_id => detail.id, :only_path => options[:only_path]},
+                            :title => l(:label_view_diff)
         s << " (#{ diff_link })"
       end
       s.html_safe
     elsif detail.value.present?
       case detail.property
-      when 'attr', 'cf'
-        if detail.old_value.present?
-          l(:text_journal_changed, :label => label, :old => old_value, :new => value).html_safe
-        elsif multiple
+        when 'attr', 'cf'
+          if detail.old_value.present?
+            l(:text_journal_changed, :label => label, :old => old_value, :new => value).html_safe
+          elsif multiple
+            l(:text_journal_added, :label => label, :value => value).html_safe
+          else
+            l(:text_journal_set_to, :label => label, :value => value).html_safe
+          end
+        when 'attachment', 'relation'
           l(:text_journal_added, :label => label, :value => value).html_safe
-        else
-          l(:text_journal_set_to, :label => label, :value => value).html_safe
-        end
-      when 'attachment', 'relation'
-        l(:text_journal_added, :label => label, :value => value).html_safe
       end
     else
       l(:text_journal_deleted, :label => label, :old => old_value).html_safe

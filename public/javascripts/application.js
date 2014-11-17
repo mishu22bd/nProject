@@ -489,6 +489,25 @@ function observeAutocompleteField(fieldId, url, options) {
   });
 }
 
+
+function customObserveAutocompleteField(fieldId,targetId, url, options) {
+    $(document).ready(function() {
+        $('#'+fieldId).autocomplete($.extend({
+            source: url,
+            minLength: 1,
+            search: function(){$('#'+fieldId).addClass('ajax-loading');},
+            response: function(){$('#'+fieldId).removeClass('ajax-loading');},
+            select: function(event, ui) {
+                var url = ui.item.id;
+                $("#"+targetId).attr("value",url)
+                $("#"+targetId).attr("data-project_issue_id",ui.item.value)
+            }
+        }, options));
+        $('#'+fieldId).addClass('autocomplete');
+    });
+}
+
+
 function observeSearchfield(fieldId, targetId, url) {
   $('#'+fieldId).each(function() {
     var $this = $(this);

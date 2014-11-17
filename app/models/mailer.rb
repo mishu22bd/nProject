@@ -30,7 +30,7 @@ class Mailer < ActionMailer::Base
   # Builds a mail for notifying to_users and cc_users about a new issue
   def issue_add(issue, to_users, cc_users)
     redmine_headers 'Project' => issue.project.identifier,
-                    'Issue-Id' => issue.id,
+                    'Issue-Id' => issue.project_issue_id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
@@ -41,7 +41,7 @@ class Mailer < ActionMailer::Base
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
     mail :to => to_users.map(&:mail),
       :cc => cc_users.map(&:mail),
-      :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
+      :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.project_issue_id}] (#{issue.status.name}) #{issue.subject}"
   end
 
   # Notifies users about a new issue
@@ -57,13 +57,13 @@ class Mailer < ActionMailer::Base
   def issue_edit(journal, to_users, cc_users)
     issue = journal.journalized
     redmine_headers 'Project' => issue.project.identifier,
-                    'Issue-Id' => issue.id,
+                    'Issue-Id' => issue.project_issue_id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id journal
     references issue
     @author = journal.user
-    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
+    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.project_issue_id}] "
     s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
     s << issue.subject
     @issue = issue

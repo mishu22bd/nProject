@@ -1,23 +1,9 @@
 
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'company', :plugin => 'company' %>
+<% end %>
 <style type="text/css">
-	.com-detail{
-		width: 100%;
-		margin: 0;
-		float: left;
-	}
-	.company { 
-  width: 50%; 
-  border-collapse: collapse; 
-  }
-  .company td { 
-  padding: 6px; 
-  border: 1px solid #ccc; 
-  text-align: left; 
-  font-size: 12px;
-}
-.com-user li{
-	list-style: none;
-}
+
 </style>
 <h2> Company Details</h2>
 <div class="com-detail">
@@ -44,7 +30,7 @@
 			<td><ul class="com-user">
 			     <% count = 1 %>
 				<% for user in @users %>
-				<li><%= count %> ) <%= user.name %></li>
+				<li><%= count %> ) <%= avatar(user, :size => "14") %> <%= link_to user.name, edit_user_path(user) %></li>
 				<% count += 1 %>
 				<% end %>
 				</ul>
@@ -56,7 +42,7 @@
 			<td><ul class="com-user">
 			     <% count = 1 %>
 				<% for project in @projects %>
-				<li><%= count %> ) <%= project.name %></li>
+				<li><%= count %> ) <%= link_to_project(project) %></li>
 				<% count += 1 %>
 				<% end %>
 				</ul>
@@ -68,7 +54,13 @@
 
 
 
-<div class="new-button" style="float:left; margin-top:10px;"><%= link_to 'Edit', edit_company_path(@company) %> </div>
-<div class="new-button" style="float:left; margin-top:10px; margin-left: 20px;"><%= link_to 'Back', companies_path %></div>
+	<div class="new-button" style="float:left; margin-top:10px;"><%= link_to 'Edit', edit_company_path(@company) %> </div>
+	<div class="new-button" style="float:left; margin-top:10px; margin-left: 20px;"><%= link_to 'Back', companies_path %></div>
  
+</div>
+
+<div class="add-user" >
+ <div class="new-button" style="width:100%;"> 
+   <%= link_to 'Add Company user', :controller => "users", :action => "new", :company_id => @company.id %> 
+ </div>
 </div>

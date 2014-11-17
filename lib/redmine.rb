@@ -248,26 +248,27 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
+  menu.push :gantt, { :controller => 'gantts', :action => 'show' }, :param => :project_id, :caption => :label_gantt
+  menu.push :tasklist, { :controller => 'issues', :action => 'tasks' }, :param => :project_id, :caption => "Tasks"
+  menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => "Issues"
+  menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
+  menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id, :caption => "Knowledge Management"
   #menu.push :special, { :controller => 'issues', :action => 'dash_pages' }, :param => :project_id, :caption => "special", :after => :overview
-  menu.push :activity, { :controller => 'activities', :action => 'index' }, :caption => "Audit-Trail" 
+  menu.push :activity, { :controller => 'activities', :action => 'index' }, :caption => "Audit-Trail"
+  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => false
   menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
-  menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => "Issues"
-  menu.push :tasklist, { :controller => 'issues', :action => 'tasks' }, :param => :project_id, :caption => "Tasks"
  # menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => "Tasks",
   #            :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
-  menu.push :gantt, { :controller => 'gantts', :action => 'show' }, :param => :project_id, :caption => :label_gantt
-  menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :wiki, { :controller => 'wiki', :action => 'show', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id, :caption => "(KM) Files"
+
   menu.push :repository, { :controller => 'repositories', :action => 'show', :repository_id => nil, :path => nil, :rev => nil },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
   #menu.push :file_new, { :controller => 'files', :action => 'new' }, :caption => 'All tasks', :param => :project_id
  
 end

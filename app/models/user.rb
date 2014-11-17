@@ -226,6 +226,10 @@ class User < Principal
     end
   end
 
+  def full_name
+    self.name
+  end
+
   def active?
     self.status == STATUS_ACTIVE
   end
