@@ -1,14 +1,12 @@
 class BoxelementsController < ApplicationController
 
 
+  #menu_item :boxelements
 
-
-#   menu_item :boxelements
-
-#before_filter :find_project_by_project_id
- # before_filter :authorize, :except => :create
+  #before_filter :find_project_by_project_id
+  # before_filter :authorize, :except => :create
   #helper :sort
- # include SortHelper
+  # include SortHelper
 
 
 
@@ -74,7 +72,8 @@ class BoxelementsController < ApplicationController
 
   # POST /boxelements
   # POST /boxelements.json
-  def create
+def create
+
   @boxelement = Boxelement.new(params[:boxelement])
   if @boxelement.name == ""
   else

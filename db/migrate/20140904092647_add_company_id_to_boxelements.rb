@@ -7,3 +7,4 @@ class AddCompanyIdtoBoxelements < ActiveRecord::Migration
   	remove_column :boxelements, :company_id
   end
 end
+
