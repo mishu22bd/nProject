@@ -773,46 +773,7 @@ a img {
   border: 0;
 }
 
-/*table.sortable {
-    font-family:arial;
-    background-color: #CDCDCD;
-    margin:10px 0pt 15px;
-    font-size: 8pt;
-    width: 100%;
-    text-align: left;
-}
-table.sortable thead tr th {
-    background-color: #e6EEEE;
-    border: 1px solid #FFF;
-    font-size: 8pt;
-    padding: 4px;
-}
-table.sortable thead tr .header {
-    background-image: url(bg.gif);
-    background-repeat: no-repeat;
-    background-position: center right;
-    cursor: pointer;
-}
-table.sortable tbody.scbdy td {
-    color: #3D3D3D;
-    padding: 4px;
-    background-color: #FFF;
-    vertical-align: top;
-    height: 231px;
-    overflow: auto;
-}
-table.sortable tbody tr.odd td {
-    background-color:#F0F0F6;
-}
-table.sortable thead tr .headerSortUp {
-    background-image: url(asc.gif);
-}
-table.sortable thead tr .headerSortDown {
-    background-image: url(desc.gif);
-}
-table.sortable thead tr .headerSortDown, table.sortable thead tr .headerSortUp {
-background-color: #8dbdd8;
-}*/ /* css code for "sortable" class */
+
 table.sortable{
    border: 0px solid #fff; font-size: 14px; border-collapse: collapse; width: 100%; margin-bottom: 4px;
 }
@@ -827,4 +788,61 @@ table.sortable tbody td.name, table.sortable tbody td.description, table.sortabl
 
 
 
-/* for paging stylings_Eumna&Shumana */
+/* tab css */
+.clear { clear: both;}
+/*----- Tabs -----*/
+.tabs-dash {
+    width:100%;
+    display:inline-block;
+}
+ 
+    /*----- Tab Links -----*/
+    /* Clearfix */
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+    }
+ 
+    .tab-links li {
+        margin:0px 5px;
+        float:left;
+        list-style:none;
+    }
+ 
+        .tab-links a {
+            margin-bottom:-15px;
+            margin-left:-4px;
+            display:inline-block;
+            border-radius:3px 3px 0px 0px;
+            background:#7FB5DA;
+            font-size:12px;
+            font-weight:600;
+            color:#4c4c4c;
+            transition:all linear 0.15s;
+        }
+ 
+        .tab-links a:hover {
+            background:#a7cce5;
+            text-decoration:none;
+        }
+ 
+    li.active a, li.active a:hover {
+        background:#717171;
+        /*color:#4c4c4c;*/
+    }
+ 
+    /*----- Content of Tabs -----*/
+    .tab-content {
+        
+        padding:0px; 
+        background:#fff;
+    }
+ 
+        .tab {
+            display:none;
+        }
+ 
+        .tab.active {
+            display:block;
+        }
