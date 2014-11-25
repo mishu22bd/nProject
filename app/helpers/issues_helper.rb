@@ -108,6 +108,11 @@ module IssuesHelper
     s.html_safe
   end
 
+  def relation_special(issue)
+    issue.relations.select {|r| r.other_issue(issue) && r.other_issue(issue).visible? }
+    
+  end
+
   # Returns an array of error messages for bulk edited issues
   def bulk_edit_error_messages(issues)
     messages = {}

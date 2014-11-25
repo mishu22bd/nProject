@@ -14,7 +14,7 @@
         <th><%=l(:field_project)%></th>
         <th><%=l(:field_tracker)%></th>
         <th><%=l(:field_subject)%></th>
-          <th><%= "Due Date"%></th>
+        <th><%= "Due Date"%></th>
         <%#=l(:field_updated_on)%>
         <th>Progress status</th>
         </tr>
@@ -90,38 +90,4 @@
             <option selected="selected" value="999">all</option>
         </select>
  -->
-
-<script type="text/javascript">
-$(document).ready(function() 
-    { 
-        $("#tablesorter").tablesorter(); 
-     
-    } 
-);
-    
-    var pager = new Pager('tablesorter', 6); 
-    pager.init(); 
-    pager.showPageNav('pager', 'pageNavPosition'); 
-    pager.showPage(1);
-
-
-$('#tablesorter')
-    .tablesorterPager({
-        container: $("#pager"),
-        size: 999
-    });
-
-// $(document).ready(function() 
-//     { 
-
-// $('#tablesorter').dataTable({
-
-//     "dom": '<"top"i>rt < "bottom"flp><"clear">'
-
-
-
-// });
-
-//     });
-</script>
 

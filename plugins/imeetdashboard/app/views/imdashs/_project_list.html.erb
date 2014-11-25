@@ -191,23 +191,7 @@
         <% end %>
         <% end %>
   
-<%#= pt %>
 
-  <!--progress %-->
-      <%# if aT != 0 %>
-      <%# ct =  cloTasks.to_f/aT  %>  
-      <%# else %> 
-      <%# ct =  0  %>  
-      <%# end %>
-      <%# ctp = (ct*0.75)*100 %>  
-     <%# if aI != 0 %>
-      <%# ci = cloIssues.to_f/aI  %>
-     <%# else %> 
-      <%# ci =  0  %>  
-      <%# end %>
-      <%# cip = (ci*0.25)*100  %>
-      <%# progress = (ctp + cip).ceil %>
-     <%#= burn(300, 120) %>
 <!-- late % calculation by sukanta-->
       <% if aT != 0 %>
        <% rt =  dueTask.to_f/aT  %>    
@@ -269,24 +253,20 @@
 <%end %>
 </td>
 
-<td> <%= link_to opTasks, :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'o', :set_filter => 1, :tracker_id => 4 ,:content => 'Open Tasks' %>
+<td> <%= link_to opTasks, :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'o', :set_filter => 1, :tracker_id => 4 ,:content => 'Open Tasks', :project => project.name %>
 </td>
-<td> <%= link_to cloTasks,  :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'c', :set_filter => 1, :tracker_id => 4 ,:content => 'Complete Tasks' %>
+<td> <%= link_to cloTasks,  :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'c', :set_filter => 1, :tracker_id => 4, :content => 'Complete Tasks', :project => project.name %>
 </td>
 
 <td>
 
-
-      <%#= link_to opIssues, project_issues_path(project, :status_id => 'o', :set_filter => 1, :tracker_id => 5) %>
-    <%= link_to opIssues, :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'o', :set_filter => 1, :tracker_id => 5 ,:content => 'Open Issues' %> 
+  <%= link_to opIssues, :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'o', :set_filter => 1, :tracker_id => 5 ,:content => 'Open Issues',  :project => project.name %> 
 </td>
 
 
 <td>
 
-
-      <%#= link_to cloIssues, project_issues_path(project, :status_id => 'c', :set_filter => 1, :tracker_id => 5) %>
-      <%= link_to cloIssues,  :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'c', :set_filter => 1, :tracker_id => 5 ,:content => 'Complete Issues' %>
+  <%= link_to cloIssues,  :controller => 'issues', :action => 'dash_pages', :project_id => project.id, :status_id => 'c', :set_filter => 1, :tracker_id => 5 ,:content => 'Complete Issues',  :project => project.name %>
 </td>
     
 

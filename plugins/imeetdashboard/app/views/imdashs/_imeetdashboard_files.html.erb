@@ -18,29 +18,22 @@
            <% end %>   
        <% end %>
 
-       
-        <% allFiles = LinkedFile.where(boxelement_id: filelist) %>
+<% allFiles = LinkedFile.where(boxelement_id: filelist) %>
           
 
 
 <% allFiles = allFiles.reverse.first(10) %>
-<% for a in allFiles %>
+  <% for a in allFiles %>
   
     <tr class=" <%= cycle("odd", "even") %>">
-    <td>
-
-      <%= link_to a.filename, a.file.url  %>
-
-    </td>
-    <td><%= a.created_at.strftime("%B %d, %Y") %></td>
-    
-     </tr>
-
-
-       
-  
-
-<% end %>
+      <td>
+        <%= link_to a.filename, a.file.url  %>
+      </td>
+      <td>
+        <%= a.created_at.strftime("%B %d, %Y") %>
+      </td>
+    </tr>
+  <% end %>
 </tbody>
 </table>
 

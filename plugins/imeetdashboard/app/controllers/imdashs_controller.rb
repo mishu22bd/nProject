@@ -26,7 +26,7 @@ class ImdashsController < ApplicationController
         #@projectss = scope.visible.order('lft').all
         @company = User.current.custom_field_values[0].to_s
         @projects = Project.latest User.current
-       # Rails.logger.info "DEBUG STARTED for custom field"
+        #Rails.logger.info "DEBUG STARTED for custom field"
         @projectss = User.current.memberships.collect(&:project).compact.select(&:active?).uniq
         #@projectss = @projectss.order("custom_field_values DESC")
         

@@ -1,8 +1,9 @@
+
 <% if params!= nil %>
 <%#= params %>
 <% @content = params[:content] %>
 <% end %>
-<h2>Work level  <%= @content %></h2>
+<h2>Work level  <%= @content %> of <%= params[:project] %></h2>
 <div class="contextual" style="">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
   <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
@@ -49,27 +50,13 @@
 
     <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
     <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
-    <%# if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
-    <%#= link_to_function l(:button_save),
-                             "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }'); submit_query_form('query_form')",
-                             :class => 'icon icon-save' %>
-    <%# end %>
+    
     </p>
 <% end %>
 
 
-<%= render :partial => 'issues/list_dash', :locals => {:tasks => @specials, :query => @query} %>
-
-<%# @specials.each do |t| %>
-<%#= t %>
-<%# end %>
-
-<%# content_for :sidebar do %>
-     
-     <%# url_task = url_for(:controller => 'issues', :action => 'new', :copy_from => nil, :param => :project_id, :tracker_id => "4", :tracker_name => "Task", :caption => :label_issue_new,
-              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) })  %>
-	<%#= link_to "Create Task", url_task %>
-<%# end %>
+<%#= render :partial => 'issues/list_dash', :locals => {:tasks => @specials, :query => @query} %>
+<%= render :partial => 'issues/list_details', :locals => {:tasks => @specials, :query => @query} %>
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom,
                                 {:query_id => @query, :format => 'atom',

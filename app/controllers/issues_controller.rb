@@ -186,15 +186,16 @@ def dash_pages
     
         lol = [] 
         @specials.each do |i| 
-        if i.parent_id? 
-        lol << i.parent_id 
+          if i.parent_id? 
+            lol << i.parent_id 
+          end 
         end 
-        end 
-#= lol 
+
       @specials = @specials.reject{|s| lol.uniq.include? s.id }
       @issue_count = @specials.count
       @issue_pages = Paginator.new @issue_count, @limit, params['page']
       @offset ||= @issue_pages.offset 
+      
     
       Rails.logger.info "Debug specials"
        
