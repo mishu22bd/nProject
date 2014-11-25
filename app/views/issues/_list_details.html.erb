@@ -1,6 +1,6 @@
 <%#= tasks.inspect %>
 <div class="autoscroll">
-  <table class="list issues">
+  <table cellspacing='0' class="list_detail">
     <thead><tr>
       <th>#</th>
       <th>Subject</th>
@@ -16,14 +16,14 @@
     </tr></thead>
     <tbody>
     <% tasks.reverse.each do |task| %>
-      <tr>
+      <tr class=" <%= cycle("odd", "even") %>">
         <td>
           <%= link_to task.project_issue_id, issue_path(task) %>
         </td>
         <td>
           <%= link_to task.subject,  issue_path(task) %> (<%=h task.status %>)
         </td>
-        <td style="width: 20%;">
+        <td>
         	<% if task.description? || task.attachments.any? -%>
             <% if task.description? %>
               <div class="description">
@@ -34,7 +34,7 @@
             <% end %>
           <% end -%>
         </td>
-        <td style="width: 20%;">
+        <td>
           <% if task.attachments.any? %>
         	  <%= link_to_attachments task, :thumbnails => true %>
           <% end %>
