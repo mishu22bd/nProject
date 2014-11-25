@@ -1,8 +1,7 @@
 <%= javascript_include_tag :"newsort.js", :plugin => 'imeetdashboard' %>
 <%= stylesheet_link_tag :"imdashs.css", :plugin => 'imeetdashboard' %>
 <%= javascript_include_tag :"jquery.tablesorter.min.js", :plugin => 'imeetdashboard' %>
-<%#  @cn = @issue_count-1 %>
-<% @tsk = 1 %>
+
 <%= title "All Tasks" %>
 <%= form_tag({}) do -%>
 <%= hidden_field_tag 'back_url', url_for(params), :id => nil %>
@@ -42,15 +41,14 @@
   <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
    
    
-    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %><%#= @tsk %></td>
+    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
     
+  <td><%= link_to issue.project_issue_id, issue %></td>
   
    
   
-   <% @tsk += 1 %>
-    <%= raw query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, issue)}</td>"}.join %>
-     <%# @qcols =  query.inline_columns.reject{ |col| col.name.to_s == 'id' } %>
-    <%#= raw @qcols.map {|column| "<td class=\"#{column.css_classes}\"> #{column_content(column, issue)}</td>"}.join %>
+   <% @qcols =  query.inline_columns.reject{ |col| col.name.to_s == 'id' } %>
+    <%= raw @qcols.map {|column| "<td class=\"#{column.css_classes}\"> #{column_content(column, issue)}</td>"}.join %>
   
   </tr>
   <% @query.block_columns.each do |column|
@@ -65,18 +63,7 @@
   <%# end -%>
   </tbody>
 </table>
-<script type="text/javascript">
 
-// Change the selector if needed
-
-
-$(document).ready(function() 
-    { 
-        $("#tablesorter").tablesorter(); 
-    } 
-); 
-
-</script>
 <!--</div>-->
 <% end -%>
 
