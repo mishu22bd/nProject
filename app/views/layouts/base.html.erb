@@ -59,8 +59,10 @@
         <% else %>
             <%#= page_header_title %>
             <%= image_tag @company.avatar_url(:thumb), :style => "float:left; margin-left :-140px; margin-top:-8px;" if User.current.logged? && @company.present? %>
-            <%= @company.name if @company %>
+
+            <%#= @company.name if @company %>
         <% end %>
+       
       </h1>
 
 
@@ -94,9 +96,12 @@
       </div>
       <!--end drop-->
     </div>
-
+    
     <% if display_main_menu?(@project) %>
         <div id="main" class="<%= sidebar_content? ? '' : 'nosidebar' %>" style="margin-top:7%;">
+          
+          <div class="top-project"><%= @project %></div>
+          
           <div id="sidebar">
             <%= yield :sidebar %>
             <%= view_layouts_base_sidebar_hook_response %>
@@ -116,7 +121,7 @@
             <%= yield :sidebar %>
             <%= view_layouts_base_sidebar_hook_response %>
           </div>
-
+          
           <div id="content">
             <%= render_flash_messages %>
             <%= yield %>

@@ -46,6 +46,6 @@ Redmine::Plugin.register :redmine_todos do
      }
   end
 
-  menu :project_menu, :todos, {:controller => 'todo_list', :action => 'index'}, :caption => :label_todo_plural, :param => :project_id, :after => :activity
+  #menu :project_menu, :todos, {:controller => 'todo_list', :action => 'index'}, :caption => :label_todo_plural, :param => :project_id, :after => :activity
 
 end

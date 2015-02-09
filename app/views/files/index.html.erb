@@ -5,11 +5,11 @@
 <% allTheFiles = Boxelement.where(project_id: @project.id) %> 
 
 <% url = url_for(:controller => 'boxelements', :action => 'new', :project_id => @project.id, :author_id => User.current.id)  %>
-                     <div class="new-button" style="float:right; width: 10%;">
-                     <%= link_to "Upload New File",url %>
-                     </div>
-<h2> (KM) Files </h2>
 
+<h2> (KM) Files </h2>
+<div class="new-button" style="float:left; width: 10%;">
+  <%= link_to "Upload New File",url %>
+</div>
 <br />
 <br /> 
 
