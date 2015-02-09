@@ -1,4 +1,9 @@
 <%= title "Tasks"%>
+
+<% url_task = url_for(:controller => 'issues', :action => 'new', :copy_from => nil, :param => :project_id, :tracker_id => "4", :tracker_name => "Task", :caption => :label_issue_new,
+              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) })  %>
+
+<%= link_to "Create New Task", url_task , :class =>  'icon icon-add' , :style => "margin-left: 0px" %>  
 <div class="contextual" style="">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
   <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
@@ -7,10 +12,6 @@
 </div>
 
 
-<% url_task = url_for(:controller => 'issues', :action => 'new', :copy_from => nil, :param => :project_id, :tracker_id => "4", :tracker_name => "Task", :caption => :label_issue_new,
-              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) })  %>
-
-    <%= link_to "Create New Task", url_task , :class =>  'icon icon-add' , :style => "margin-left: 1110px" %>  
 	<p><%#= button_to "Create Task", url_task, :param => :project_id, :method => :get %></p>
      
  <%# @tasklist =  @tasks.reject{| v| v.tracker.to_s == 'Issue'} %>

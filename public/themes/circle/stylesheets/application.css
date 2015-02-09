@@ -12,7 +12,15 @@
 	margin:-6px -29px 10px -10px;
 	height: 50px;
 }
-
+.top-project {
+  margin-top: -34px;
+  margin-left: -19px;
+  margin-right: -19px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: #FBF8EF;
+  padding: 6px;
+}
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
 only screen and (min-device-pixel-ratio: 2) {
 	#header > h1 {
@@ -970,7 +978,7 @@ table.list_detail tr:first-child th:last-child {
 	border-top-right-radius:3px;
 }
 table.list_detail tr {
-	text-align: center;
+	text-align: left;
 	padding-left:20px;
 }
 table.list_detail td:first-child {
@@ -983,7 +991,7 @@ table.list_detail td {
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
-
+    
 	background: #fafafa;
 	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
 	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
