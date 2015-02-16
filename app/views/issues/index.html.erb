@@ -52,20 +52,23 @@ lol = []
 
 <!-- end lower level-->
 <%= title "Issues"%>
+<% url_issue = url_for( :controller => 'issues', :action => 'new', :copy_from => nil, :param => :project_id, :tracker_id => "5", :tracker_name => "Issue", :caption => :label_issue_new, :class => 'icon icon-edit',
+              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) })  %>   
+<p><%= link_to "Create New Issue",url_issue, :class =>  'icon icon-add' , :style => "margin-left: 0px" %></p>
+
 <div class="contextual" style="">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
   <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
   <%= delete_link query_path(@query) %>
 <% end %>
+
+
+
+
 </div>
 
 
 
-<% url_issue = url_for( :controller => 'issues', :action => 'new', :copy_from => nil, :param => :project_id, :tracker_id => "5", :tracker_name => "Issue", :caption => :label_issue_new, :class => 'icon icon-edit',
-              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) })  %>   
-
-
-<p><%= link_to "Create New Issue",url_issue, :class =>  'icon icon-add' , :style => "margin-left: 1110px" %></p>
 
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
 
