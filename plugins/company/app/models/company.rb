@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
 
   has_many :users, foreign_key: :companies_id
   has_many :projects, foreign_key: :companies_id
+  has_many :consultants
   # ensure email address in the database is downcase
   mount_uploader :avatar, AvatarUploader
   before_save :downcase_email
