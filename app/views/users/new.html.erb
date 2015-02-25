@@ -1,8 +1,8 @@
 <%= title [l(:label_user_plural), users_path], l(:label_user_new) %>
 <% if params[:company_id] != nil %>
-<% companies_id = params[:company_id] %>
+  <% companies_id = params[:company_id] %>
 <% else %>
-<% companies_id = User.current.companies_id  %>
+  <% companies_id = User.current.companies_id  %>
 <% end %>
 
 <%= labelled_form_for @user do |f| %>

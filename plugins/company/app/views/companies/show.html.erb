@@ -73,8 +73,13 @@
 </div>
 
 <div class="add-user" >
- <div class="new-button" style="width:100%;"> 
-   <%= link_to 'Add Company user', :controller => "users", :action => "new", :company_id => @company.id %> 
- </div>
- <div><%= link_to "Add Consultant", new_consultant_path(:my_company => {:company_id => @company.id})%></div>
+  <div class="new-button" style="width:100%;"> 
+    <%= link_to 'Add Company user', :controller => "users", :action => "new", :company_id => @company.id %> 
+  </div>
+  <div class="new-button" style="width:100%;"> 
+    <%= link_to "Add Consultant", new_consultant_path(:my_company => {:company_id => @company.id})%>
+  </div>
+  <div class="new-button" style="width:100%;"> 
+   <%= link_to "Add Project", :controller => 'projects', :action => 'new', :company_id => @company.id %>
+  </div>
 </div>

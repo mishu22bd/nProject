@@ -83,6 +83,7 @@ class ProjectsController < ApplicationController
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
+    
   end
 
   def create
