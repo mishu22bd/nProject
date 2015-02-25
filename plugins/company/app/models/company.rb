@@ -14,9 +14,15 @@ class Company < ActiveRecord::Base
   validates :email, presence: true, format: {with: VALID_EMAIL_REGEX}
   validates :description, presence: true
   validates :contact_no, presence: true
-
+  
+  scope :consultants, lambda{|company_id| includes(:consultants).select("consultants.user_id as user_ids").where(:id => company_id)}
+  #scope :consults, lambda{|company_id|includes(:consultants, :users).select("users.firstname as firstname").where(:id => company_id)}
+  #def self.user_ids company_id
+    
+  #end
   private
     def downcase_email
   	  self.email = email.downcase
     end
 end
+

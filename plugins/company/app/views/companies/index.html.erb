@@ -29,7 +29,8 @@
 </div>
 
 <div class="new-button">
-	<%= link_to "Add New", sign_up_path %>
-	
+  <% if User.current.login == 'admin' %>
+	  <%= link_to "Add New", sign_up_path %>
+	<% end %>
 
 </div>

@@ -22,18 +22,24 @@ class ImdashsController < ApplicationController
         
         @project_peoples = []
         scope = Project
-        #@pusers = users
-        #@projectss = scope.visible.order('lft').all
+        
         @company = User.current.custom_field_values[0].to_s
         @projects = Project.latest User.current
         #Rails.logger.info "DEBUG STARTED for custom field"
         @projectss = User.current.memberships.collect(&:project).compact.select(&:active?).uniq
         #@projectss = @projectss.order("custom_field_values DESC")
+        #if Consultant.consultant? User.current.id
+        #  ids = Consultant.company_id User.current.id
+        #  consult_projects = Project.where(:companies_id => ids).compact
+         
+        # @consult_projects = consult_projects.to_a
+          #@pro_sorts = @projectss << @consult_projects
+          #@pro_sorts = @projectSelects.sort_by { |h| h.custom_field_values[0].to_s }
+       # end
+          #@projectSelects = @projectss.select{|m| m.companies_id == User.current.companies_id }
         
-
-        @projectSelects = @projectss.select{|m| m.companies_id == User.current.companies_id }
-        
-        @pro_sorts = @projectSelects.sort_by { |h| h.custom_field_values[0].to_s }
+          @pro_sorts = @projectss.sort_by { |h| h.custom_field_values[0].to_s }
+        #end
        # puts @projectss.class
        #Rails.logger.info "Project custom field"
         # puts @projectSelects
@@ -219,11 +225,14 @@ def issues
 
 end
 def robots
-    @projects = Project.all_public.active
-    render :layout => false, :content_type => 'text/plain'
-  end
+  @projects = Project.all_public.active
+  render :layout => false, :content_type => 'text/plain'
+end
 
+def consult_projects ids
+  companies = ids.collect {|i| Company.find(i)}  
   
+end 
 
 
 end

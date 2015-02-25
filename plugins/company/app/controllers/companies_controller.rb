@@ -10,14 +10,23 @@ class CompaniesController < ApplicationController
   include QueriesHelper
   helper :members 
   helper :users
-
+ 
   def index
-    @companies = Company.all
+    if Consultant.consultant? User.current.id
+      ids = Consultant.company_id User.current.id
+      @companies = ids.collect {|i| Company.find(i)}
+    else
+      @companies = Company.all
+    end
   end
 # responsible for showing company data
   def show
     @users = @company.users.all
     @projects = @company.projects.all
+    ids = Consultant.ids(params[:id])
+    
+    @consultants = consultants ids
+    
   end
   def company_data
     @user = User.current
@@ -69,7 +78,10 @@ class CompaniesController < ApplicationController
   end
   
   private
-
+  
+  def consultants ids
+    ids.collect {|i| User.find(i) }
+  end
    def set_company
      @company = Company.find(params[:id])
    end

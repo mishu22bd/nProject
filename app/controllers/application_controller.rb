@@ -614,4 +614,6 @@ class ApplicationController < ActionController::Base
   def _include_layout?(*args)
     api_request? ? false : super
   end
+  
+
 end

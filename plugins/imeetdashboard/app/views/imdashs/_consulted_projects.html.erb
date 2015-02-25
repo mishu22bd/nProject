@@ -41,18 +41,18 @@
 
 <tbody class="dashBody_p">
 
-<% for project in @pro_sorts %>
+<% @consult_projects.each do |project| %>
         
        
-        <% opIssues = Issue.where(project_id: project.id, status_id: [1,2], :tracker_id => 5) %>
+        <% opIssues = Issue.where(project_id: project.id, status_id: [1,2], :tracker_id => 5).first %>
 
-        <% cloIssues = Issue.where(project_id: project.id, status_id: 5, :tracker_id => 5) %>
+        <% cloIssues = Issue.where(project_id: project.id, status_id: 5, :tracker_id => 5).first %>
 
-        <% opTasks = Issue.where(project_id: project.id, status_id: [1,2], :tracker_id => 4) %>
+        <% opTasks = Issue.where(project_id: project.id, status_id: [1,2], :tracker_id => 4).first %>
 
-        <% cloTasks = Issue.where(project_id: project.id, status_id: 5, :tracker_id => 4) %>
-        <% allTask = Issue.where(project_id: project.id, status_id: [1,2,5], :tracker_id => 4 ) %> 
-        <% allIssue = Issue.where(project_id: project.id, status_id: [1,2,5], :tracker_id => 5 ) %>  
+        <% cloTasks = Issue.where(project_id: project.id, status_id: 5, :tracker_id => 4).first %>
+        <% allTask = Issue.where(project_id: project.id, status_id: [1,2,5], :tracker_id => 4 ).first %> 
+        <% allIssue = Issue.where(project_id: project.id, status_id: [1,2,5], :tracker_id => 5 ).first %>  
 
         <% spent_times =  TimeEntry.sum(:hours, :conditions =>{project_id: project.id}).to_f.round(1) %> 
         <%# estimated_times =  Issue.sum(:estimated_hours, :conditions =>{project_id: project.id}).round %> 

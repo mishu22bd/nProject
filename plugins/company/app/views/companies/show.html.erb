@@ -1,4 +1,5 @@
 
+
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'company', :plugin => 'company' %>
 <% end %>
@@ -6,6 +7,7 @@
 
 </style>
 <h2> Company Details</h2>
+<%#= @consultants.inspect %>
 <div class="com-detail">
 	<table class="company">
 		
@@ -24,6 +26,17 @@
 		<tr>
 			<td>Company Logo</td>
 			<td><%= image_tag @company.avatar_url(:thumb)%></td>
+		</tr>
+		<tr>
+			<td>Company Consultants</td>
+			<td><ul class="com-user">
+			     <% count = 1 %>
+				<% for user in @consultants %>
+				<li><%= count %> ) <%= avatar(user, :size => "14") %> <%= link_to user.name, edit_user_path(user) %></li>
+				<% count += 1 %>
+				<% end %>
+				</ul>
+			</td>
 		</tr>
 		<tr>
 			<td>Company Users</td>
@@ -63,5 +76,5 @@
  <div class="new-button" style="width:100%;"> 
    <%= link_to 'Add Company user', :controller => "users", :action => "new", :company_id => @company.id %> 
  </div>
- <div><%= link_to "Add Consultant" %></div>
+ <div><%= link_to "Add Consultant", new_consultant_path(:my_company => {:company_id => @company.id})%></div>
 </div>

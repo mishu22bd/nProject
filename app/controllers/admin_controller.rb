@@ -35,7 +35,13 @@ class AdminController < ApplicationController
     scope = Project.status(@status).order('lft')  
     scope = scope.like(params[:name]) if params[:name].present?
    # if (User.current.login == "admin")
-    scope = scope.separate(User.current.companies_id)
+    if Consultant.consultant? User.current.id
+      ids = Consultant.company_id User.current.id
+      company_ids = ids << User.current.companies_id
+      scope = scope.separate(company_ids)
+    else
+      scope = scope.separate(User.current.companies_id)
+    end
     @projects = scope.all 
    # else
      

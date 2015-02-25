@@ -7,7 +7,7 @@ Redmine::Plugin.register :company do
   author_url 'http://example.com/about'
 
 
-menu :top_menu, :company, {:controller => 'companies', :action => 'index', :project_id => nil}, :caption => "Company",  :if => Proc.new{User.current.login == 'admin'}
+menu :top_menu, :company, {:controller => 'companies', :action => 'index', :project_id => nil}, :caption => "Company", 
+ :if => Proc.new {User.current.login == 'admin' || Consultant.consultant?(User.current.id) }
 menu :admin_menu, :company, {:controller => 'companies', :action => 'company_data'}, :caption => "My Company", :if => Proc.new{User.current.admin? && User.current.companies_id?}
-
 end
