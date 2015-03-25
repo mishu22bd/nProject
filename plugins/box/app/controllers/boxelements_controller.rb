@@ -93,6 +93,7 @@ def create
             else
               permitted_users<<m
             end
+          FileMailer.send_email_file_user(permitted_users, @boxelement.id).deliver 
       end
 
     # for compnay
@@ -110,7 +111,8 @@ def create
             f.permission_flag = 1
           end 
 
-         f.save  
+         f.save 
+
         end
       end
 

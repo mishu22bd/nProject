@@ -2,7 +2,7 @@ class ConsultantsController < ApplicationController
 
 	def new
 		#@company_id = params[:company_id]
-		@users = User.where(admin: true)
+		@users = User.where(admin: true, companies_id: nil)
 	  @consultant = Consultant.new(params[:my_company])
 	end
 
