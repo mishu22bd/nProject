@@ -1,4 +1,4 @@
-<% @box = LinkedFile.where(boxelement_id: @file_id).first %>
+<%# @box = LinkedFile.where(boxelement_id: @file_id).first %>
 
 <html>
 <head>
@@ -63,8 +63,11 @@ span.footer {
 
 <b>Dear <%= @user %>, </b></br>
   <p>
-    A new file is added. File description is # <%= @file %> <br>
-    You are permitted to view <%= link_to @box.filename, @box.file.url  %>
+    A new file is added.<br>
+    File description is # <br>
+    <%= @file %> <br>
+    You are permitted to view 
+    <a href="http://nproject.imeet.biz/boxelements/linked_file/<%= @file_id %>/file/<%= @filename %>" target="_blank"><%= @filename %></a>
   </p>
 	
 
