@@ -93,9 +93,8 @@ def create
             else
               permitted_users<<m
             end
-          FileMailer.send_email_file_user(permitted_users, @boxelement.id).deliver 
-      end
-
+          end
+          FileMailer.send_email_file_user(permitted_users, @boxelement.name, @boxelement.id).deliver 
     # for compnay
     if params[:boxelement][:company_id]
       company_users = User.where(companies_id: params[:boxelement][:company_id]).pluck(:id)
