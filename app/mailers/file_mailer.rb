@@ -1,18 +1,18 @@
 class FileMailer < ActionMailer::Base
-  default from: "info@nksoft.com"
+  default from: "nproject@nksoft.com"
 
-  def send_email_file_user(fileusers, file, id)
+  def send_email_file_user(fileuser, file, id)
     @file = file
-    @file_id = id
+    #@file_id = id
     filedata = LinkedFile.where(boxelement_id: id).first
     @filename = filedata.filename
-    fileusers.each do |m|
-      @user_file = User.find(m)
-      @user = @user_file.name
+    @file_id = filedata.id
+    @user_file = User.find(fileuser)
+    @user = @user_file.name
+    puts @user_file.mail
      
-     
-      mail to: @user_file.mail, subject: " A new file #{@filename} is added to Knowledge Management. "
-    end
+    mail to: @user_file.mail, subject: " A new file #{@filename} is added to Knowledge Management. "
+    
   end
   
 end

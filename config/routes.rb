@@ -20,7 +20,7 @@ RedmineApp::Application.routes.draw do
    root :to => 'imdashs#index', :as => 'home' 
 #  match 'http://localhost:3000/homes',  :to => 'welcome#index', :as => 'home'
   match 'homes', :to =>"homes#index"
-  resources :boxelements
+  #resources :boxelements
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
   match 'logout', :to => 'account#logout', :as => 'signout', :via => [:get, :post]
   match 'account/register', :to => 'account#register', :via => [:get, :post], :as => 'register'

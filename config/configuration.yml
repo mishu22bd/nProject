@@ -219,7 +219,7 @@ production:
             domain: "mail.gigegeo.com"    
             authentication: :plain
             user_name: 'info@nksoft.com'
-            password: 'ocuquaw%quek'
+            password: 'chmjig8PU96yoyz'
 
 
 #    delivery_method: :smtp

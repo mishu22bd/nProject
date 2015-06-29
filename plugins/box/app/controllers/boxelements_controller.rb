@@ -94,7 +94,9 @@ def create
               permitted_users<<m
             end
           end
-          FileMailer.send_email_file_user(permitted_users, @boxelement.name, @boxelement.id).deliver 
+          permitted_users.each do |per_user|
+            FileMailer.send_email_file_user(per_user, @boxelement.name, @boxelement.id).deliver 
+          end
     # for compnay
     if params[:boxelement][:company_id]
       company_users = User.where(companies_id: params[:boxelement][:company_id]).pluck(:id)
